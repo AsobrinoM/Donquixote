@@ -6,12 +6,13 @@ using UnityEngine;
 public class ParallaxLayer : MonoBehaviour
 {
 
-    public float parallaxFactor;
+    [Range(0.1f, 2.0f)] // Intervalo típico para el factor de parallax
+    public float parallaxFactor = 0.5f;
 
     public void Move(float delta)
     {
         Vector3 newPos = transform.localPosition;
-        newPos.x -= delta * parallaxFactor;
+        newPos.x -= delta * (parallaxFactor / 6.5f);
 
         transform.localPosition = newPos;
     }
