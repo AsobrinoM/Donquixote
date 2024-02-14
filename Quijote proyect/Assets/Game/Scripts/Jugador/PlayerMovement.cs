@@ -18,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
 	#region COMPONENTS
     public Rigidbody2D RB { get; private set; }
 	//Script to handle all player animations, all references can be safely removed if you're importing into your own project.
-	public PlayerAnimator AnimHandler { get; private set; }
 	#endregion
 
 	#region STATE PARAMETERS
@@ -75,22 +74,28 @@ public class PlayerMovement : MonoBehaviour
     #region LAYERS & TAGS
     [Header("Layers & Tags")]
 	[SerializeField] private LayerMask _groundLayer;
-	#endregion
+    #endregion
+
+    private Animator animator;
 
     private void Awake()
 	{
 		RB = GetComponent<Rigidbody2D>();
-		AnimHandler = GetComponent<PlayerAnimator>();
 	}
 
 	private void Start()
 	{
 		SetGravityScale(Data.gravityScale);
 		IsFacingRight = true;
-	}
+
+        animator = GetComponent<Animator>();
+    }
 
 	private void Update()
 	{
+
+        HandleInput();
+
         #region TIMERS
         LastOnGroundTime -= Time.deltaTime;
 		LastOnWallTime -= Time.deltaTime;
@@ -106,9 +111,11 @@ public class PlayerMovement : MonoBehaviour
 		_moveInput.y = Input.GetAxisRaw("Vertical");
 
 		if (_moveInput.x != 0)
+		{
 			CheckDirectionToFace(_moveInput.x > 0);
+		}
 
-		if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.J))
         {
 			OnJumpInput();
         }
@@ -130,11 +137,6 @@ public class PlayerMovement : MonoBehaviour
 			//Ground Check
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
 			{
-				if(LastOnGroundTime < -0.1f)
-                {
-					AnimHandler.justLanded = true;
-                }
-
 				LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
             }		
 
@@ -183,8 +185,6 @@ public class PlayerMovement : MonoBehaviour
 				_isJumpCut = false;
 				_isJumpFalling = false;
 				Jump();
-
-				AnimHandler.startedJumping = true;
 			}
 			//WALL JUMP
 			else if (CanWallJump() && LastPressedJumpTime > 0)
@@ -278,6 +278,22 @@ public class PlayerMovement : MonoBehaviour
 		#endregion
     }
 
+    private void HandleInput()
+    {
+        // Obtener la entrada del teclado
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+
+        // Actualizar la dirección a la que mira el personaje
+        if (horizontalInput != 0)
+        {
+            CheckDirectionToFace(horizontalInput > 0);
+        }
+
+        // Actualizar el parámetro de animación "isRunning" basado en la entrada del teclado
+        bool isRunning = Mathf.Abs(horizontalInput) > 0;
+        animator.SetBool("isRunning", isRunning);
+    }
+
     private void FixedUpdate()
 	{
 		//Handle Run
@@ -286,7 +302,11 @@ public class PlayerMovement : MonoBehaviour
 			if (IsWallJumping)
 				Run(Data.wallJumpRunLerp);
 			else
-				Run(1);
+			{
+                
+                Run(1);
+            }
+				
 		}
 		else if (_isDashAttacking)
 		{
@@ -343,6 +363,8 @@ public class PlayerMovement : MonoBehaviour
     #region RUN METHODS
     private void Run(float lerpAmount)
 	{
+	
+
 		//Calculate the direction we want to move in and our desired velocity
 		float targetSpeed = _moveInput.x * Data.runMaxSpeed;
 		//We can reduce are control using Lerp() this smooths changes to are direction and speed
@@ -392,17 +414,19 @@ public class PlayerMovement : MonoBehaviour
 		 * RB.velocity = new Vector2(RB.velocity.x + (Time.fixedDeltaTime  * speedDif * accelRate) / RB.mass, RB.velocity.y);
 		 * Time.fixedDeltaTime is by default in Unity 0.02 seconds equal to 50 FixedUpdate() calls per second
 		*/
+
 	}
 
-	private void Turn()
-	{
-		//stores scale and flips the player along the x axis, 
-		Vector3 scale = transform.localScale; 
-		scale.x *= -1;
-		transform.localScale = scale;
+    private void Turn()
+    {
+        // Voltear el personaje y actualizar el estado de IsFacingRight
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
 
-		IsFacingRight = !IsFacingRight;
-	}
+        IsFacingRight = !IsFacingRight;
+    }
+
     #endregion
 
     #region JUMP METHODS
