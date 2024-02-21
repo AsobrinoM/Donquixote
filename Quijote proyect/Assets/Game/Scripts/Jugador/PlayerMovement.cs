@@ -277,7 +277,18 @@ public class PlayerMovement : MonoBehaviour
 		}
 		#endregion
     }
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("GeM"))
+        {
+			if (_dashesLeft == 0)
+			{
+                _dashesLeft++;
+            }
+            
+            Destroy(collision.gameObject);
+        }
+    }
     private void HandleInput()
     {
         // Obtener la entrada del teclado
