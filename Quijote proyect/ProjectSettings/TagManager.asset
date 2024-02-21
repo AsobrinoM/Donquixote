@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Suelo
   - Enemy
+  - PowerUp
+  - GeM
   layers:
   - Default
   - TransparentFX
