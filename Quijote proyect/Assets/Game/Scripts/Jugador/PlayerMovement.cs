@@ -117,6 +117,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.J))
         {
+			animator.SetBool("isJumping", true);
+
 			OnJumpInput();
         }
 
@@ -137,7 +139,9 @@ public class PlayerMovement : MonoBehaviour
 			//Ground Check
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
 			{
-				LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
+
+
+                LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
             }		
 
 			//Right Wall Check
@@ -275,7 +279,9 @@ public class PlayerMovement : MonoBehaviour
 			//No gravity when dashing (returns to normal once initial dashAttack phase over)
 			SetGravityScale(0);
 		}
-		#endregion
+        #endregion
+
+
     }
 
     private void HandleInput()
@@ -445,10 +451,12 @@ public class PlayerMovement : MonoBehaviour
 			force -= RB.velocity.y;
 
 		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-		#endregion
-	}
+        #endregion
 
-	private void WallJump(int dir)
+        
+    }
+
+    private void WallJump(int dir)
 	{
 		//Ensures we can't call Wall Jump multiple times from one press
 		LastPressedJumpTime = 0;
@@ -558,7 +566,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CanJump()
     {
-		return LastOnGroundTime > 0 && !IsJumping;
+        return LastOnGroundTime > 0 && !IsJumping;
     }
 
 	private bool CanWallJump()

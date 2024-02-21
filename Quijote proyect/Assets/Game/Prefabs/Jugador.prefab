@@ -43,8 +43,9 @@ GameObject:
   - component: {fileID: 6821279915544727}
   - component: {fileID: 5475544439343507733}
   - component: {fileID: 7984551629589751027}
+  - component: {fileID: 2686446867503583170}
   - component: {fileID: 3209041788893121400}
-  - component: {fileID: 1343565757761736450}
+  - component: {fileID: 1597109434449201772}
   m_Layer: 0
   m_Name: Jugador
   m_TagString: Untagged
@@ -171,6 +172,41 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!70 &2686446867503583170
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805693043032636132}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.005496434, y: -0.08793334}
+  m_Size: {x: 0.37404743, y: 1.0320683}
+  m_Direction: 0
 --- !u!114 &3209041788893121400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +228,7 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 8
---- !u!114 &1343565757761736450
+--- !u!114 &1597109434449201772
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -201,9 +237,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 805693043032636132}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47d94bad1412f294f89aa963d3507490, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b3fb7c1b85fe6f42abbc9eccf7bfa0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reboundForce: 10
+  respawnPoint: {x: 1.45, y: 0}
+  respawnDelay: 1
 --- !u!1 &4799849175713488539
 GameObject:
   m_ObjectHideFlags: 0

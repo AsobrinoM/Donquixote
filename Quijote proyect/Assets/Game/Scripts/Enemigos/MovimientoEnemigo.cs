@@ -39,7 +39,7 @@ public class EnemigoHollow : MonoBehaviour
         {
             Flip();
         }
-        if (isWallCollisionRight || isWallCollisionLeft)
+        else if (isWallCollisionRight || isWallCollisionLeft)
         {
             Flip();
         }
