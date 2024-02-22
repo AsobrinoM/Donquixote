@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
 	public PlayerData Data;
 
 	#region COMPONENTS
-    public Rigidbody2D RB { get; private set; }
+	public Rigidbody2D RB { get; private set; }
 	//Script to handle all player animations, all references can be safely removed if you're importing into your own project.
 	#endregion
 
@@ -61,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
 
 	#region CHECK PARAMETERS
 	//Set all of these up in the inspector
-	[Header("Checks")] 
+	[Header("Checks")]
 	[SerializeField] private Transform _groundCheckPoint;
 	//Size of groundCheck depends on the size of your character generally you want them slightly small than width (for ground) and height (for the wall check)
 	[SerializeField] private Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
@@ -69,16 +69,18 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private Transform _frontWallCheckPoint;
 	[SerializeField] private Transform _backWallCheckPoint;
 	[SerializeField] private Vector2 _wallCheckSize = new Vector2(0.5f, 1f);
-    #endregion
+	#endregion
 
-    #region LAYERS & TAGS
-    [Header("Layers & Tags")]
+	#region LAYERS & TAGS
+	[Header("Layers & Tags")]
 	[SerializeField] private LayerMask _groundLayer;
     #endregion
 
     private Animator animator;
 
-    private void Awake()
+	float horizontalMove = 0f;
+
+	private void Awake()
 	{
 		RB = GetComponent<Rigidbody2D>();
 	}
@@ -88,16 +90,16 @@ public class PlayerMovement : MonoBehaviour
 		SetGravityScale(Data.gravityScale);
 		IsFacingRight = true;
 
-        animator = GetComponent<Animator>();
-    }
+		animator = GetComponent<Animator>();
+	}
 
 	private void Update()
 	{
 
-        HandleInput();
+		HandleInput();
 
-        #region TIMERS
-        LastOnGroundTime -= Time.deltaTime;
+		#region TIMERS
+		LastOnGroundTime -= Time.deltaTime;
 		LastOnWallTime -= Time.deltaTime;
 		LastOnWallRightTime -= Time.deltaTime;
 		LastOnWallLeftTime -= Time.deltaTime;
@@ -115,10 +117,12 @@ public class PlayerMovement : MonoBehaviour
 			CheckDirectionToFace(_moveInput.x > 0);
 		}
 
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.J))
-        {
+		if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.J))
+		{
+			animator.SetBool("isJumping", true);
+
 			OnJumpInput();
-        }
+		}
 
 		if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.C) || Input.GetKeyUp(KeyCode.J))
 		{
@@ -137,8 +141,12 @@ public class PlayerMovement : MonoBehaviour
 			//Ground Check
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
 			{
+
+
 				LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
-            }		
+
+
+			}
 
 			//Right Wall Check
 			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
@@ -169,7 +177,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 
 		if (LastOnGroundTime > 0 && !IsJumping && !IsWallJumping)
-        {
+		{
 			_isJumpCut = false;
 
 			_isJumpFalling = false;
@@ -206,7 +214,7 @@ public class PlayerMovement : MonoBehaviour
 		if (CanDash() && LastPressedDashTime > 0)
 		{
 			//Freeze game for split second. Adds juiciness and a bit of forgiveness over directional input
-			Sleep(Data.dashSleepTime); 
+			Sleep(Data.dashSleepTime);
 
 			//If not direction pressed, dash forward
 			if (_moveInput != Vector2.zero)
@@ -276,25 +284,39 @@ public class PlayerMovement : MonoBehaviour
 			SetGravityScale(0);
 		}
 		#endregion
-    }
 
-    private void HandleInput()
-    {
-        // Obtener la entrada del teclado
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        // Actualizar la dirección a la que mira el personaje
-        if (horizontalInput != 0)
-        {
-            CheckDirectionToFace(horizontalInput > 0);
-        }
 
-        // Actualizar el parámetro de animación "isRunning" basado en la entrada del teclado
-        bool isRunning = Mathf.Abs(horizontalInput) > 0;
-        animator.SetBool("isRunning", isRunning);
-    }
+	}
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.CompareTag("GeM"))
+		{
+			if (_dashesLeft == 0)
+			{
+				_dashesLeft++;
+			}
 
-    private void FixedUpdate()
+			Destroy(collision.gameObject);
+		}
+	}
+	private void HandleInput()
+	{
+		// Obtener la entrada del teclado
+		float horizontalInput = Input.GetAxisRaw("Horizontal");
+
+		// Actualizar la dirección a la que mira el personaje
+		if (horizontalInput != 0)
+		{
+			CheckDirectionToFace(horizontalInput > 0);
+		}
+
+		// Actualizar el parámetro de animación "isRunning" basado en la entrada del teclado
+		bool isRunning = Mathf.Abs(horizontalInput) > 0;
+		animator.SetBool("isRunning", isRunning);
+	}
+
+	private void FixedUpdate()
 	{
 		//Handle Run
 		if (!IsDashing)
@@ -303,10 +325,10 @@ public class PlayerMovement : MonoBehaviour
 				Run(Data.wallJumpRunLerp);
 			else
 			{
-                
-                Run(1);
-            }
-				
+
+				Run(1);
+			}
+
 		}
 		else if (_isDashAttacking)
 		{
@@ -316,11 +338,14 @@ public class PlayerMovement : MonoBehaviour
 		//Handle Slide
 		if (IsSliding)
 			Slide();
-    }
 
-    #region INPUT CALLBACKS
+		animator.SetBool("isJumping", IsJumping);
+		animator.SetBool("isFalling", _isJumpFalling);
+	}
+
+	#region INPUT CALLBACKS
 	//Methods which whandle input detected in Update()
-    public void OnJumpInput()
+	public void OnJumpInput()
 	{
 		LastPressedJumpTime = Data.jumpInputBufferTime;
 	}
@@ -335,35 +360,35 @@ public class PlayerMovement : MonoBehaviour
 	{
 		LastPressedDashTime = Data.dashInputBufferTime;
 	}
-    #endregion
+	#endregion
 
-    #region GENERAL METHODS
-    public void SetGravityScale(float scale)
+	#region GENERAL METHODS
+	public void SetGravityScale(float scale)
 	{
 		RB.gravityScale = scale;
 	}
 
 	private void Sleep(float duration)
-    {
+	{
 		//Method used so we don't need to call StartCoroutine everywhere
 		//nameof() notation means we don't need to input a string directly.
 		//Removes chance of spelling mistakes and will improve error messages if any
 		StartCoroutine(nameof(PerformSleep), duration);
-    }
+	}
 
 	private IEnumerator PerformSleep(float duration)
-    {
+	{
 		Time.timeScale = 0;
 		yield return new WaitForSecondsRealtime(duration); //Must be Realtime since timeScale with be 0 
 		Time.timeScale = 1;
 	}
-    #endregion
+	#endregion
 
 	//MOVEMENT METHODS
-    #region RUN METHODS
-    private void Run(float lerpAmount)
+	#region RUN METHODS
+	private void Run(float lerpAmount)
 	{
-	
+
 
 		//Calculate the direction we want to move in and our desired velocity
 		float targetSpeed = _moveInput.x * Data.runMaxSpeed;
@@ -392,11 +417,11 @@ public class PlayerMovement : MonoBehaviour
 
 		#region Conserve Momentum
 		//We won't slow the player down if they are moving in their desired direction but at a greater speed than their maxSpeed
-		if(Data.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
+		if (Data.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
 		{
 			//Prevent any deceleration from happening, or in other words conserve are current momentum
 			//You could experiment with allowing for the player to slightly increae their speed whilst in this "state"
-			accelRate = 0; 
+			accelRate = 0;
 		}
 		#endregion
 
@@ -417,20 +442,20 @@ public class PlayerMovement : MonoBehaviour
 
 	}
 
-    private void Turn()
-    {
-        // Voltear el personaje y actualizar el estado de IsFacingRight
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
+	private void Turn()
+	{
+		// Voltear el personaje y actualizar el estado de IsFacingRight
+		Vector3 scale = transform.localScale;
+		scale.x *= -1;
+		transform.localScale = scale;
 
-        IsFacingRight = !IsFacingRight;
-    }
+		IsFacingRight = !IsFacingRight;
+	}
 
-    #endregion
+	#endregion
 
-    #region JUMP METHODS
-    private void Jump()
+	#region JUMP METHODS
+	private void Jump()
 	{
 		//Ensures we can't call Jump multiple times from one press
 		LastPressedJumpTime = 0;
@@ -446,6 +471,8 @@ public class PlayerMovement : MonoBehaviour
 
 		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
 		#endregion
+
+
 	}
 
 	private void WallJump(int dir)
@@ -531,46 +558,46 @@ public class PlayerMovement : MonoBehaviour
 	private void Slide()
 	{
 		//We remove the remaining upwards Impulse to prevent upwards sliding
-		if(RB.velocity.y > 0)
+		if (RB.velocity.y > 0)
 		{
-		    RB.AddForce(-RB.velocity.y * Vector2.up,ForceMode2D.Impulse);
+			RB.AddForce(-RB.velocity.y * Vector2.up, ForceMode2D.Impulse);
 		}
-	
+
 		//Works the same as the Run but only in the y-axis
 		//THis seems to work fine, buit maybe you'll find a better way to implement a slide into this system
-		float speedDif = Data.slideSpeed - RB.velocity.y;	
+		float speedDif = Data.slideSpeed - RB.velocity.y;
 		float movement = speedDif * Data.slideAccel;
 		//So, we clamp the movement here to prevent any over corrections (these aren't noticeable in the Run)
 		//The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
-		movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif)  * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
+		movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
 
 		RB.AddForce(movement * Vector2.up);
 	}
-    #endregion
+	#endregion
 
 
-    #region CHECK METHODS
-    public void CheckDirectionToFace(bool isMovingRight)
+	#region CHECK METHODS
+	public void CheckDirectionToFace(bool isMovingRight)
 	{
 		if (isMovingRight != IsFacingRight)
 			Turn();
 	}
 
-    private bool CanJump()
-    {
+	private bool CanJump()
+	{
 		return LastOnGroundTime > 0 && !IsJumping;
-    }
+	}
 
 	private bool CanWallJump()
-    {
+	{
 		return LastPressedJumpTime > 0 && LastOnWallTime > 0 && LastOnGroundTime <= 0 && (!IsWallJumping ||
 			 (LastOnWallRightTime > 0 && _lastWallJumpDir == 1) || (LastOnWallLeftTime > 0 && _lastWallJumpDir == -1));
 	}
 
 	private bool CanJumpCut()
-    {
+	{
 		return IsJumping && RB.velocity.y > 0;
-    }
+	}
 
 	private bool CanWallJumpCut()
 	{
@@ -588,18 +615,18 @@ public class PlayerMovement : MonoBehaviour
 	}
 
 	public bool CanSlide()
-    {
+	{
 		if (LastOnWallTime > 0 && !IsJumping && !IsWallJumping && !IsDashing && LastOnGroundTime <= 0)
 			return true;
 		else
 			return false;
 	}
-    #endregion
+	#endregion
 
 
-    #region EDITOR METHODS
-    private void OnDrawGizmosSelected()
-    {
+	#region EDITOR METHODS
+	private void OnDrawGizmosSelected()
+	{
 		Gizmos.color = Color.green;
 		Gizmos.DrawWireCube(_groundCheckPoint.position, _groundCheckSize);
 		Gizmos.color = Color.blue;
@@ -607,6 +634,12 @@ public class PlayerMovement : MonoBehaviour
 		Gizmos.DrawWireCube(_backWallCheckPoint.position, _wallCheckSize);
 	}
     #endregion
-}
 
-// created by Dawnosaur :D
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Suelo"))
+        {
+            animator.SetBool("isJumping", false);
+        }
+    }
+}
