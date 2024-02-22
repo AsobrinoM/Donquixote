@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
         {
             ChangeScene("Tutorial");
         }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            ChangeScene("Escena Alex");
+        }
     }
 
     public void ChangeScene(string sceneName)
