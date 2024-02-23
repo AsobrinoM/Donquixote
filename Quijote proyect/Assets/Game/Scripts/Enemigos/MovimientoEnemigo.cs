@@ -12,7 +12,7 @@ public class EnemigoHollow : MonoBehaviour
     public GameObject wallCheckRight;
     public GameObject wallCheckLeft;
     public LayerMask groundLayer;
-    public LayerMask playerLayer;
+
     public bool facingRight = true;
     public bool isGrounded;
     public bool isWallCollisionRight;
@@ -22,33 +22,31 @@ public class EnemigoHollow : MonoBehaviour
 
     [SerializeField] float rayDistance = 1f;
 
+    [SerializeField] LayerMask playerLayer;
+
     public GameObject player;
 
 
     void Start()
     {
          EnemyRB = GetComponent<Rigidbody2D>();
-
-        int playerLayerIndex = LayerMask.NameToLayer("Player");
-        playerLayer = 1 << playerLayerIndex;
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        RaycastHit2D hitPlayer = Physics2D.Raycast(obstacleRayObject.transform.position, Vector2.right, 1f);
+
+        RaycastHit2D hitPlayer = Physics2D.Raycast(obstacleRayObject.transform.position, Vector2.right, rayDistance, playerLayer);
+
+        Debug.Log(hitPlayer.collider);
 
         if (hitPlayer.collider != null)
         {
-
-            Debug.Log("hit");
             Debug.DrawRay(obstacleRayObject.transform.position, Vector2.right * rayDistance, Color.red);
         }
         else
         {
             Debug.DrawRay(obstacleRayObject.transform.position, Vector2.right * rayDistance, Color.green);
-        
         }
 
         EnemyRB.velocity = Vector2.right * speed * Time.deltaTime;

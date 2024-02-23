@@ -78,8 +78,6 @@ public class PlayerMovement : MonoBehaviour
 
     private Animator animator;
 
-	float horizontalMove = 0f;
-
 	private void Awake()
 	{
 		RB = GetComponent<Rigidbody2D>();
@@ -141,7 +139,6 @@ public class PlayerMovement : MonoBehaviour
 			//Ground Check
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
 			{
-
 
 				LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
 
