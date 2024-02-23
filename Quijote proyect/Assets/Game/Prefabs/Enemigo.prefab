@@ -297,7 +297,13 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
   facingRight: 1
   isGrounded: 0
   isWallCollisionRight: 0
   isWallCollisionLeft: 0
+  obstacleRayObject: {fileID: 0}
+  rayDistance: 1
+  player: {fileID: 0}
