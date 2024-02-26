@@ -15,8 +15,15 @@ public class PlayerMovement : MonoBehaviour
 	//just paste in all the parameters, though you will need to manuly change all references in this script
 	public PlayerData Data;
 
-	#region COMPONENTS
-	public Rigidbody2D RB { get; private set; }
+    #region JOYSTICK
+	public Joystick joystick;
+	private float horizontalMove = 0f;
+	private float verticalMove = 0f;
+
+    #endregion
+
+    #region COMPONENTS
+    public Rigidbody2D RB { get; private set; }
 	//Script to handle all player animations, all references can be safely removed if you're importing into your own project.
 	#endregion
 
@@ -107,10 +114,27 @@ public class PlayerMovement : MonoBehaviour
 		#endregion
 
 		#region INPUT HANDLER
+
+		
+
+
 		_moveInput.x = Input.GetAxisRaw("Horizontal");
 		_moveInput.y = Input.GetAxisRaw("Vertical");
 
-		if (_moveInput.x != 0)
+        if (joystick.Horizontal >= .2f)
+        {
+            _moveInput.x = 1f;
+        }
+        else if (joystick.Horizontal <= -.2f)
+        {
+            _moveInput.x = -1f;
+        }
+        else
+        {
+            _moveInput.x = 0f;
+        }
+
+        if (_moveInput.x != 0)
 		{
 			CheckDirectionToFace(_moveInput.x > 0);
 		}
