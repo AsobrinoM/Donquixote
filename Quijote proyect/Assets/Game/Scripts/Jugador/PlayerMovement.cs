@@ -111,16 +111,20 @@ public class PlayerMovement : MonoBehaviour
 
 		LastPressedJumpTime -= Time.deltaTime;
 		LastPressedDashTime -= Time.deltaTime;
-		#endregion
+        #endregion
 
-		#region INPUT HANDLER
-
-		
+        #region INPUT HANDLER
 
 
-		_moveInput.x = Input.GetAxisRaw("Horizontal");
+        if (IsJumping && RB.velocity.y < 0 && !_isJumpFalling)
+        {
+            animator.SetTrigger("Fall");
+        }
+
+        _moveInput.x = Input.GetAxisRaw("Horizontal");
 		_moveInput.y = Input.GetAxisRaw("Vertical");
 
+		/**
         if (joystick.Horizontal >= .2f)
         {
             _moveInput.x = 1f;
@@ -138,12 +142,16 @@ public class PlayerMovement : MonoBehaviour
 		{
 			CheckDirectionToFace(_moveInput.x > 0);
 		}
+		*/
+
+        bool isRunning = Mathf.Abs(_moveInput.x) > 0;
+        animator.SetBool("isRunning", isRunning);
 
 		if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.J))
 		{
-			animator.SetBool("isJumping", true);
+            animator.SetTrigger("Jump");
 
-			OnJumpInput();
+            OnJumpInput();
 		}
 
 		if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.C) || Input.GetKeyUp(KeyCode.J))
@@ -164,11 +172,9 @@ public class PlayerMovement : MonoBehaviour
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
 			{
 
-				LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
-
-
+				animator.SetTrigger("EndFall");
+                LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
 			}
-
 			//Right Wall Check
 			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
 					|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)) && !IsWallJumping)
@@ -288,8 +294,10 @@ public class PlayerMovement : MonoBehaviour
 			}
 			else if (RB.velocity.y < 0)
 			{
-				//Higher gravity if falling
-				SetGravityScale(Data.gravityScale * Data.fallGravityMult);
+                
+
+                //Higher gravity if falling
+                SetGravityScale(Data.gravityScale * Data.fallGravityMult);
 				//Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
 			}
@@ -304,12 +312,9 @@ public class PlayerMovement : MonoBehaviour
 			//No gravity when dashing (returns to normal once initial dashAttack phase over)
 			SetGravityScale(0);
 		}
-		#endregion
-
-
-
-	}
-	private void OnTriggerEnter2D(Collider2D collision)
+        #endregion
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (collision.CompareTag("GeM"))
 		{
@@ -360,8 +365,7 @@ public class PlayerMovement : MonoBehaviour
 		if (IsSliding)
 			Slide();
 
-		animator.SetBool("isJumping", IsJumping);
-		animator.SetBool("isFalling", _isJumpFalling);
+		
 	}
 
 	#region INPUT CALLBACKS
@@ -656,11 +660,5 @@ public class PlayerMovement : MonoBehaviour
 	}
     #endregion
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Suelo"))
-        {
-            animator.SetBool("isJumping", false);
-        }
-    }
+    
 }
