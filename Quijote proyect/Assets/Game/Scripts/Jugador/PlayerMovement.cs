@@ -118,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (IsJumping && RB.velocity.y < 0 && !_isJumpFalling)
         {
-            animator.SetTrigger("Fall");
+			animator.SetTrigger("Fall");
         }
 
         _moveInput.x = Input.GetAxisRaw("Horizontal");
@@ -171,8 +171,6 @@ public class PlayerMovement : MonoBehaviour
 			//Ground Check
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
 			{
-
-				animator.SetTrigger("EndFall");
                 LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
 			}
 			//Right Wall Check
@@ -312,7 +310,7 @@ public class PlayerMovement : MonoBehaviour
 			//No gravity when dashing (returns to normal once initial dashAttack phase over)
 			SetGravityScale(0);
 		}
-        #endregion
+        #endregion  
     }
     private void OnTriggerEnter2D(Collider2D collision)
 	{
@@ -660,5 +658,12 @@ public class PlayerMovement : MonoBehaviour
 	}
     #endregion
 
-    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Suelo"))
+        {
+            animator.Play("Quieto");
+        }
+    }
+
 }
