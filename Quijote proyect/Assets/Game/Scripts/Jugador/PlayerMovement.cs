@@ -6,8 +6,10 @@
 	Feel free to use this in your own games, and I'd love to see anything you make!
  */
 
+using Cinemachine;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -17,8 +19,6 @@ public class PlayerMovement : MonoBehaviour
 
     #region JOYSTICK
 	public Joystick joystick;
-	private float horizontalMove = 0f;
-	private float verticalMove = 0f;
 
     #endregion
 
@@ -36,9 +36,10 @@ public class PlayerMovement : MonoBehaviour
 	public bool IsWallJumping { get; private set; }
 	public bool IsDashing { get; private set; }
 	public bool IsSliding { get; private set; }
+    public static bool isDying = false;
 
-	//Timers (also all fields, could be private and a method returning a bool could be used)
-	public float LastOnGroundTime { get; private set; }
+    //Timers (also all fields, could be private and a method returning a bool could be used)
+    public float LastOnGroundTime { get; private set; }
 	public float LastOnWallTime { get; private set; }
 	public float LastOnWallRightTime { get; private set; }
 	public float LastOnWallLeftTime { get; private set; }
@@ -85,7 +86,11 @@ public class PlayerMovement : MonoBehaviour
 
     private Animator animator;
 
-	private void Awake()
+    public CinemachineVirtualCamera virtualCamera;
+
+    public Light2D luzPersonaje;
+
+    private void Awake()
 	{
 		RB = GetComponent<Rigidbody2D>();
 	}
@@ -101,10 +106,14 @@ public class PlayerMovement : MonoBehaviour
 	private void Update()
 	{
 
-		HandleInput();
+		animator.SetBool("isDying", isDying);
 
-		#region TIMERS
-		LastOnGroundTime -= Time.deltaTime;
+      
+        HandleInput();
+        
+
+        #region TIMERS
+        LastOnGroundTime -= Time.deltaTime;
 		LastOnWallTime -= Time.deltaTime;
 		LastOnWallRightTime -= Time.deltaTime;
 		LastOnWallLeftTime -= Time.deltaTime;
@@ -326,8 +335,11 @@ public class PlayerMovement : MonoBehaviour
 	}
 	private void HandleInput()
 	{
-		// Obtener la entrada del teclado
-		float horizontalInput = Input.GetAxisRaw("Horizontal");
+
+
+
+        // Obtener la entrada del teclado
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
 
 		// Actualizar la dirección a la que mira el personaje
 		if (horizontalInput != 0)
@@ -342,8 +354,20 @@ public class PlayerMovement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		//Handle Run
-		if (!IsDashing)
+        if (isDying)
+        {
+            luzPersonaje.enabled = false;
+            virtualCamera.enabled = false;
+            return;
+        }
+		else
+		{
+            luzPersonaje.enabled = true;
+            virtualCamera.enabled = true;
+        }
+
+        //Handle Run
+        if (!IsDashing)
 		{
 			if (IsWallJumping)
 				Run(Data.wallJumpRunLerp);
@@ -660,8 +684,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Suelo"))
+        if (collision.gameObject.CompareTag("Suelo") && !PlayerMovement.isDying)
         {
+			
             animator.Play("Quieto");
         }
     }
