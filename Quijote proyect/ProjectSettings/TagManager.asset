@@ -45,6 +45,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: FondoEnsuelo
+    uniqueID: 2492941903
+    locked: 0
   - name: PlayerSL
     uniqueID: 3074548255
     locked: 0
