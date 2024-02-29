@@ -7,6 +7,7 @@
  */
 
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -61,8 +62,9 @@ public class PlayerMovement : MonoBehaviour
 
 	#region INPUT PARAMETERS
 	private Vector2 _moveInput;
+	//GEMA
 
-	public float LastPressedJumpTime { get; private set; }
+    public float LastPressedJumpTime { get; private set; }
 	public float LastPressedDashTime { get; private set; }
 	#endregion
 
@@ -309,19 +311,32 @@ public class PlayerMovement : MonoBehaviour
 
 
 	}
-	private void OnTriggerEnter2D(Collider2D collision)
-	{
-		if (collision.CompareTag("GeM"))
-		{
-			if (_dashesLeft == 0)
-			{
-				_dashesLeft++;
-			}
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("GeM"))
+        {
+            if (_dashesLeft == 0)
+            {
+                _dashesLeft++;
+            }
 
-			Destroy(collision.gameObject);
-		}
-	}
-	private void HandleInput()
+            // Desactiva el objeto en lugar de destruirlo
+            collision.gameObject.SetActive(false);
+
+            // Inicia la coroutine para reactivar el objeto después de 3 segundos
+            StartCoroutine(ReaparecerObjeto(collision.gameObject));
+        }
+    }
+    private IEnumerator ReaparecerObjeto(GameObject objeto)
+    {
+        // Espera 3 segundos
+        yield return new WaitForSeconds(3);
+
+        // Reactiva el objeto
+        objeto.SetActive(true);
+    }
+
+    private void HandleInput()
 	{
 		// Obtener la entrada del teclado
 		float horizontalInput = Input.GetAxisRaw("Horizontal");
