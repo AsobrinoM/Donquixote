@@ -38,6 +38,7 @@ public class EnemigoHollow : MonoBehaviour
 
         RaycastHit2D hitPlayer = Physics2D.Raycast(obstacleRayObject.transform.position, Vector2.right, rayDistance, playerLayer);
 
+        Debug.Log(hitPlayer.collider);
 
         if (hitPlayer.collider != null)
         {
