@@ -7,7 +7,7 @@ public class FadeManager : MonoBehaviour
 {
     public static FadeManager Instance { get; private set; }
 
-    [SerializeField] private Image blackOverlay;
+    private Image blackOverlay;
 
     private void Awake()
     {
@@ -27,6 +27,26 @@ public class FadeManager : MonoBehaviour
     {
         // Encuentra la imagen negra en la nueva escena
         blackOverlay = GameObject.Find("FondoNegro").GetComponent<Image>();
+        StartCoroutine(FadeFromBlack());
+    }
+
+    private IEnumerator FadeFromBlack()
+    {
+        // Inicia el fundido de negro a la nueva escena
+        for (float t = 1; t >= 0; t -= Time.deltaTime)
+        {
+            if (blackOverlay != null)
+            {
+                blackOverlay.color = new Color(0, 0, 0, t);
+            }
+            yield return null;
+        }
+
+        // Desactiva el componente de imagen
+        if (blackOverlay != null)
+        {
+            blackOverlay.enabled = false;
+        }
     }
 
     public void FadeToScene(string sceneName)
@@ -52,22 +72,11 @@ public class FadeManager : MonoBehaviour
             }
 
             // Carga la escena
-            SceneManager.LoadScene(sceneName);
-
-            // Inicia el fundido de negro a la nueva escena
-            for (float t = 1; t >= 0; t -= Time.deltaTime)
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+            // Wait until the scene is fully loaded
+            while (!asyncLoad.isDone)
             {
-                if (blackOverlay != null)
-                {
-                    blackOverlay.color = new Color(0, 0, 0, t);
-                }
                 yield return null;
-            }
-
-            // Desactiva el componente de imagen
-            if (blackOverlay != null)
-            {
-                blackOverlay.enabled = false;
             }
         }
     }

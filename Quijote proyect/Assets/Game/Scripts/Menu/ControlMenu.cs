@@ -2,39 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ControlMenu : MonoBehaviour
 {
-    void Start()
-    {
-        GameObject gameManager = GameObject.Find("GameManager");
-        DontDestroyOnLoad(gameManager);
-    }
 
-    void Update()
-    {
-
-    }
+    [SerializeField] public GameObject btnJugar;
+    [SerializeField] public GameObject btnCreditos;
+    [SerializeField] public GameObject btnSalir;
 
     public void onButtonJugar()
     {
-        SceneManager.LoadScene("Tutorial");
+        FadeManager.Instance.FadeToScene("Seleccion Niveles");
     }
 
     public void onButtonCreditos()
     {
-        SceneManager.LoadScene("Creditos");
+
     }
 
     public void onButtonSalir()
     {
         Application.Quit();
     }
-
-    public void onButtonVolver()
-    {
-        SceneManager.LoadScene("Menu");
-    }
-
-
 }

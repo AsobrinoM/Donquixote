@@ -11,12 +11,10 @@ public class SeleccionNiveles : MonoBehaviour
     [SerializeField] public GameObject btnNivel2;
     [SerializeField] public GameObject btnNivel3;
     [SerializeField] public GameObject btnNivel4;
-
-    [SerializeField] private Image blackOverlay;
+    [SerializeField] public GameObject btnNivelSalir;
 
     void Start()
     {
-        blackOverlay.enabled = false;
 
         if (PlayerPrefs.GetInt("Nivel1") == 1)
         {
@@ -54,5 +52,10 @@ public class SeleccionNiveles : MonoBehaviour
     public void Nivel4()
     {
         FadeManager.Instance.FadeToScene("Nivel Final");
+    }
+
+    public void Menu()
+    {
+        FadeManager.Instance.FadeToScene("Menu");
     }
 }

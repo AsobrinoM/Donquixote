@@ -35,7 +35,6 @@ public class PauseMenu : MonoBehaviour
     public void MenuGame()
     {
         Time.timeScale = 1;
-        PauseButton.SetActive(true);
-        PauseMenuPanel.SetActive(false);
+        FadeManager.Instance.FadeToScene("Menu");
     }
 }
