@@ -15,8 +15,10 @@ public class EnemigoHollow : MonoBehaviour
 
     public bool facingRight = true;
     public bool isGrounded;
+    public bool wasGrounded;
     public bool isWallCollisionRight;
     public bool isWallCollisionLeft;
+    public bool hasFlippedDueToWallCollision;
 
     public GameObject obstacleRayObject;
 
@@ -29,15 +31,13 @@ public class EnemigoHollow : MonoBehaviour
 
     void Start()
     {
-         EnemyRB = GetComponent<Rigidbody2D>();
+        EnemyRB = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
         RaycastHit2D hitPlayer = Physics2D.Raycast(obstacleRayObject.transform.position, Vector2.right, rayDistance, playerLayer);
-
 
         if (hitPlayer.collider != null)
         {
@@ -49,23 +49,41 @@ public class EnemigoHollow : MonoBehaviour
         }
 
         EnemyRB.velocity = Vector2.right * speed * Time.deltaTime;
-        isGrounded = Physics2D.OverlapCircle(groundCheck.transform.position, circleRadius, groundLayer);
+
+        // Obtiene todos los colliders que se superponen con el círculo
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.transform.position, circleRadius, groundLayer);
+
+        // Comprueba si todos los puntos del collider están en el suelo
+        if (colliders.Length > 0)
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
+
         isWallCollisionRight = Physics2D.OverlapCircle(wallCheckRight.transform.position, circleRadius, groundLayer);
         isWallCollisionLeft = Physics2D.OverlapCircle(wallCheckLeft.transform.position, circleRadius, groundLayer);
 
-        if (!isGrounded && facingRight)
+        if (wasGrounded && !isGrounded)
         {
             Flip();
         }
-        else if (!isGrounded && !facingRight)
+        else if ((isWallCollisionRight || isWallCollisionLeft) && !hasFlippedDueToWallCollision)
         {
             Flip();
+            hasFlippedDueToWallCollision = true;
         }
-        else if (isWallCollisionRight || isWallCollisionLeft)
+        else if (!isWallCollisionRight && !isWallCollisionLeft)
         {
-            Flip();
+            hasFlippedDueToWallCollision = false;
         }
 
+        wasGrounded = isGrounded;
+
+        // Almacena si el personaje está en el suelo para el próximo frame
+        wasGrounded = isGrounded;
     }
 
     void Flip()
