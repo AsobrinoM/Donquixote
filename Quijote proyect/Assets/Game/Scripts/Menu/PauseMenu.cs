@@ -57,7 +57,7 @@ public class PauseMenu : MonoBehaviour
     public void MenuGame()
     {
         Time.timeScale = 1;
-        FadeManager.Instance.FadeToScene("Menu");
+        FadeManager.Instance.FadeToScene("Seleccion Niveles");
     }
 
     public void NextLevel()
