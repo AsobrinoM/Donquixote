@@ -92,8 +92,11 @@ public class PlayerMovement : MonoBehaviour
 
     public Light2D luzPersonaje;
 
+    public bool forceMoveRight = false;
+
     private void Awake()
     {
+    
         RB = GetComponent<Rigidbody2D>();
     }
 
@@ -134,7 +137,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetTrigger("Fall");
         }
 
-        _moveInput.x = Input.GetAxisRaw("Horizontal");
+        _moveInput.x = forceMoveRight ? 1 : Input.GetAxisRaw("Horizontal");
         _moveInput.y = Input.GetAxisRaw("Vertical");
 
         /**
@@ -706,6 +709,11 @@ public class PlayerMovement : MonoBehaviour
 
                 animator.Play("Quieto");
             }
+    }
+
+    public void forceRight()
+    {
+        forceMoveRight = true;
     }
 
 }
