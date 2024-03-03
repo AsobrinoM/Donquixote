@@ -92,18 +92,21 @@ public class PlayerMovement : MonoBehaviour
 
     public Light2D luzPersonaje;
 
+    public bool forceMoveRight = false;
+
     public bool ral;
 
-    public SpriteRenderer Jugador;// Ahora este campo contendrá la referencia al SpriteRenderer del jugador
+    public SpriteRenderer Jugador;// Ahora este campo contendrï¿½ la referencia al SpriteRenderer del jugador
 
     private void Awake()
     {
+    
         RB = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
     {
-        // Aquí puedes asignar la referencia al SpriteRenderer del jugador
+        // Aquï¿½ puedes asignar la referencia al SpriteRenderer del jugador
         Jugador = GetComponent<SpriteRenderer>();
 
         SetGravityScale(Data.gravityScale);
@@ -141,7 +144,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetTrigger("Fall");
         }
 
-        _moveInput.x = Input.GetAxisRaw("Horizontal");
+        _moveInput.x = forceMoveRight ? 1 : Input.GetAxisRaw("Horizontal");
         _moveInput.y = Input.GetAxisRaw("Vertical");
 
         /**
@@ -360,7 +363,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    // Método para ralentizar al jugador
+    // Mï¿½todo para ralentizar al jugador
     public void SlowDownPlayer(float reductionFactor)
     {
         Vector2 currentVelocity = RB.velocity;
@@ -369,14 +372,14 @@ public class PlayerMovement : MonoBehaviour
         ChangeColor("#5E0C8E");
     }
 
-    // Método para cambiar el color del SpriteRenderer
+    // Mï¿½todo para cambiar el color del SpriteRenderer
     public void ChangeColor(string hexColor)
     {
         Color colorPersonalizado = HexToColor(hexColor);
         Jugador.color = colorPersonalizado;
     }
 
-    // Método para convertir una cadena hexadecimal a un color en Unity
+    // Mï¿½todo para convertir una cadena hexadecimal a un color en Unity
     private Color HexToColor(string hexColor)
     {
         Color color = Color.white;
@@ -391,7 +394,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // Método para restablecer la velocidad al jugador
+    // Mï¿½todo para restablecer la velocidad al jugador
     public void restablecer()
     {
         Vector2 currentVelocity = RB.velocity;
@@ -769,6 +772,11 @@ public class PlayerMovement : MonoBehaviour
 
                 animator.Play("Quieto");
             }
+    }
+
+    public void forceRight()
+    {
+        forceMoveRight = true;
     }
 
 }
