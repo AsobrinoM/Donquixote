@@ -298,11 +298,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1206252548976448367, guid: c1f3949840ae19c4684382172374093a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.84
+      value: -14.38
       objectReference: {fileID: 0}
     - target: {fileID: 1206252548976448367, guid: c1f3949840ae19c4684382172374093a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.66
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1206252548976448367, guid: c1f3949840ae19c4684382172374093a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -342,7 +342,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5308124873574277039, guid: c1f3949840ae19c4684382172374093a, type: 3}
       propertyPath: m_TagString
-      value: GeM
+      value: GeMBad
+      objectReference: {fileID: 0}
+    - target: {fileID: 8894435364753603379, guid: c1f3949840ae19c4684382172374093a, type: 3}
+      propertyPath: m_Color.b
+      value: 0.5854396
+      objectReference: {fileID: 0}
+    - target: {fileID: 8894435364753603379, guid: c1f3949840ae19c4684382172374093a, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6330635
+      objectReference: {fileID: 0}
+    - target: {fileID: 8894435364753603379, guid: c1f3949840ae19c4684382172374093a, type: 3}
+      propertyPath: m_Color.r
+      value: 0.8679245
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -923,7 +935,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -2090,11 +2102,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1206252548976448367, guid: c1f3949840ae19c4684382172374093a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.57
+      value: -7.75
       objectReference: {fileID: 0}
     - target: {fileID: 1206252548976448367, guid: c1f3949840ae19c4684382172374093a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.58
+      value: 2.42
       objectReference: {fileID: 0}
     - target: {fileID: 1206252548976448367, guid: c1f3949840ae19c4684382172374093a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2647,6 +2659,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6821279915544727, guid: d541b440ece4e984e801aa2f9d3bdc58, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821279915544727, guid: d541b440ece4e984e801aa2f9d3bdc58, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821279915544727, guid: d541b440ece4e984e801aa2f9d3bdc58, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821279915544727, guid: d541b440ece4e984e801aa2f9d3bdc58, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 805693043032636132, guid: d541b440ece4e984e801aa2f9d3bdc58, type: 3}
       propertyPath: m_Name
       value: Jugador
@@ -15211,11 +15239,11 @@ PrefabInstance:
       objectReference: {fileID: 836427191}
     - target: {fileID: 6726093827587980084, guid: f41035cac2ff35c4cb4a9d355ba25968, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.98
+      value: 35.3
       objectReference: {fileID: 0}
     - target: {fileID: 6726093827587980084, guid: f41035cac2ff35c4cb4a9d355ba25968, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.96
+      value: 8.46
       objectReference: {fileID: 0}
     - target: {fileID: 6726093827587980084, guid: f41035cac2ff35c4cb4a9d355ba25968, type: 3}
       propertyPath: m_LocalPosition.z
