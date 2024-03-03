@@ -25,6 +25,10 @@ public class ControlMenu : MonoBehaviour
     {
         Application.Quit();
     }
+    public void onButtonVolver()
+    {
+        FadeManager.Instance.FadeToScene("Menu");
+    }
 
 
 }
