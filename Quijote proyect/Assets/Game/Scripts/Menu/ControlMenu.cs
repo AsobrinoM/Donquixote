@@ -18,11 +18,13 @@ public class ControlMenu : MonoBehaviour
 
     public void onButtonCreditos()
     {
-
+        FadeManager.Instance.FadeToScene("Creditos");
     }
 
     public void onButtonSalir()
     {
         Application.Quit();
     }
+
+
 }

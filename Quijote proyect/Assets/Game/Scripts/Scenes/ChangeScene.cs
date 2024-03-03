@@ -20,17 +20,18 @@ public class ChangeScene : MonoBehaviour
     }
 
 
-private void OnTriggerEnter2D(Collider2D collision)
-{
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
     if (collision.gameObject.tag == "Player")
     {
+        PlayerPrefs.SetInt("Nivel1", 1);
         pauseMenu.pauseTimer(); // Cambia gameManager a pauseMenu
         playerMovement.forceRight();
         StartCoroutine(ActivatePanel());
     }
 }
 
-IEnumerator ActivatePanel()
+    IEnumerator ActivatePanel()
     {
         yield return new WaitForSeconds(2);
         panelNegro.SetActive(true);

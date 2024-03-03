@@ -1188,7 +1188,6 @@ MonoBehaviour:
   btnJugar: {fileID: 0}
   btnCreditos: {fileID: 0}
   btnSalir: {fileID: 0}
-  blackOverlay: {fileID: 0}
 --- !u!114 &1085194453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2113,10 +2112,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a937c7b3f3d90e64dadfa52184f88f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  btnNivel1: {fileID: 494977623}
-  btnNivel2: {fileID: 1959175170}
-  btnNivel3: {fileID: 1588018360}
-  btnNivel4: {fileID: 239227061}
+  btnNivel1: {fileID: 494977625}
+  btnNivel2: {fileID: 1959175172}
+  btnNivel3: {fileID: 1588018362}
+  btnNivel4: {fileID: 239227063}
   btnNivelSalir: {fileID: 1460449817}
 --- !u!1 &1747611395
 GameObject:
