@@ -9,6 +9,7 @@ TagManager:
   - PowerUp
   - GeM
   - GeMBad
+  - CheckPoint
   layers:
   - Default
   - TransparentFX

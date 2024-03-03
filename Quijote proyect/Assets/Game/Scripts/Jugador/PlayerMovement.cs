@@ -98,6 +98,8 @@ public class PlayerMovement : MonoBehaviour
 
     public SpriteRenderer Jugador;// Ahora este campo contendr� la referencia al SpriteRenderer del jugador
 
+    private Vector2 checkPointPosition;
+
     private void Awake()
     {
     
@@ -359,6 +361,12 @@ public class PlayerMovement : MonoBehaviour
         {
             ral = true;
             collision.gameObject.SetActive(false);
+        }
+
+        if (collision.CompareTag("CheckPoint"))
+        {
+            // Guarda la posición del checkpoint
+            checkPointPosition = collision.transform.position;
         }
     }
 
