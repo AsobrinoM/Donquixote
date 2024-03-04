@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     public bool IsDashing { get; private set; }
     public bool IsSliding { get; private set; }
     public static bool isDying = false;
+    public static bool isRespawning = false;
 
     //Timers (also all fields, could be private and a method returning a bool could be used)
     public float LastOnGroundTime { get; private set; }
@@ -794,9 +795,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Suelo") && !PlayerMovement.isDying)
+        if (collision.gameObject.CompareTag("Suelo") && !PlayerMovement.isDying && !PlayerMovement.isRespawning)
         {
+            // Verifica si la animación "Apareciendo" está en reproducción
 
+            Debug.Log("Aterrizando");
             animator.Play("Quieto");
         }
     }

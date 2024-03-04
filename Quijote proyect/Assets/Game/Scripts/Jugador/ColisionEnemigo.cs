@@ -139,6 +139,7 @@ public class ColisionEnemigo : MonoBehaviour
 
     IEnumerator RespawnCheckPointAfterDelay()
     {
+        PlayerMovement.isRespawning = true;
         // Espera el tiempo especificado
         yield return new WaitForSeconds(respawnDelay);
 
@@ -151,6 +152,10 @@ public class ColisionEnemigo : MonoBehaviour
         PlayerMovement.isDying = false;
         isDying = false;
         animator.Play("Apareciendo");
+        yield return new WaitForSeconds(0.6f);
+        animator.Play("Quieto");
+        PlayerMovement.isRespawning = false;
+
     }
 
     IEnumerator ChangeColorAfterDamage()
