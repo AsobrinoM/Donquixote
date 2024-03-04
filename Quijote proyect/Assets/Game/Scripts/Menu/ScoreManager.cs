@@ -26,6 +26,20 @@ public class ScoreManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(HighScore1);
+        Debug.Log("Valor de la variable en ChangeScene: " + HighScore1);
+        //Para obtener la variable de change scene
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (ChangeScene.Instance != null)
+            {
+                // Obtén la variable de ChangeScene
+                HighScore1 = ChangeScene.Instance.GetSomeVariable();
+                Debug.Log("Valor de la variable en ChangeScene: " + HighScore1);
+            }
+            else
+            {
+                Debug.LogWarning("ChangeScene Instance no está disponible.");
+            }
+        }
     }
 }

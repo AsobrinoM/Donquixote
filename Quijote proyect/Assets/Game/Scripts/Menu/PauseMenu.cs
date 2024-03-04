@@ -67,7 +67,11 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1;
         FadeManager.Instance.FadeToScene("Escena Antonio");
     }
-
+    public void NextLevel2()
+    {
+        Time.timeScale = 1;
+        FadeManager.Instance.FadeToScene("Escena Alex");
+    }
     public void pauseTimer()
     {
         isPaused = true;
