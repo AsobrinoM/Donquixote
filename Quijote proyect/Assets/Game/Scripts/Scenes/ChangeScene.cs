@@ -6,6 +6,7 @@ using TMPro;
 
 public class ChangeScene : MonoBehaviour
 {
+    public static ChangeScene Instance { get; private set; }
     [SerializeField] public GameObject gameManager;
     private PauseMenu pauseMenu;
     [SerializeField] public GameObject FinalMenuPanel;
@@ -13,6 +14,7 @@ public class ChangeScene : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
 
     [SerializeField] private TextMeshProUGUI scoreText; // Si estás usando TextMesh Pro
+    public int finalScore;
 
     void Start()
     {
@@ -55,7 +57,7 @@ public class ChangeScene : MonoBehaviour
     IEnumerator UpdateScore()
     {
         float finalTime = pauseMenu.GetGameTime();
-        int finalScore = (int)(10000 / finalTime); // Aumenta el numerador para obtener una puntuación más alta
+        finalScore = (int)(10000 / finalTime); // Aumenta el numerador para obtener una puntuación más alta
         int currentScore = 0;
         while (currentScore < finalScore)
         {
@@ -65,5 +67,11 @@ public class ChangeScene : MonoBehaviour
         }
         // Asegúrate de que la puntuación final sea exactamente igual a finalScore
         scoreText.text = finalScore.ToString() + "\nPoints"; // Agrega " Points" al final del texto de la puntuación
+    }
+
+    public int GetSomeVariable()
+    {
+        // Retorna la variable que deseas acceder
+        return finalScore;
     }
 }
