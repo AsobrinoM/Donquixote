@@ -345,16 +345,20 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+     
+       
         if (collision.CompareTag("GeM"))
         {
             if (_dashesLeft == 0)
             {
-                _dashesLeft++;
-            }
-            collision.gameObject.SetActive(false);
 
-            // Inicia la coroutine para reactivar el objeto despu?s de 3 segundos
+                _dashesLeft++;
+       
+            }
+            AudioManager.instance.PlayAudio();
+            collision.gameObject.SetActive(false);
             StartCoroutine(ReaparecerObjeto(collision.gameObject));
+           
         }
 
         if (collision.CompareTag("GeMBad"))
@@ -369,7 +373,14 @@ public class PlayerMovement : MonoBehaviour
             checkPointPosition = collision.transform.position;
         }
     }
+    private IEnumerator DesactivarDespuesDeAudio(AudioSource audioSource, GameObject objetoADesactivar)
+    {
+        // Espera mientras el audio esté reproduciéndose
+        yield return new WaitWhile(() => audioSource.isPlaying);
 
+        // Desactiva el objeto después de que el audio ha terminado de reproducirse
+        objetoADesactivar.SetActive(false);
+    }
 
     // M�todo para ralentizar al jugador
     public void SlowDownPlayer(float reductionFactor)
