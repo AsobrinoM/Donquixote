@@ -354,6 +354,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.CompareTag("GeMBad"))
         {
             ral = true;
+            AudioManager2.instance.PlayAudio();
             collision.gameObject.SetActive(false);
             // Obtén una referencia al objeto GameManager
             GameObject gameManager = GameObject.Find("GameManager");
