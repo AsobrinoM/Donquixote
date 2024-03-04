@@ -10,6 +10,7 @@ TagManager:
   - GeM
   - GeMBad
   - CheckPoint
+  - Pinchos
   layers:
   - Default
   - TransparentFX

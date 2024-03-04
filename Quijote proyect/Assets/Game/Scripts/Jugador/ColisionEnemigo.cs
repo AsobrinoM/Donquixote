@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,21 +8,28 @@ public class ColisionEnemigo : MonoBehaviour
 {
     public float reboundForce = 10f; // Fuerza de rebote
     public Vector2 respawnPoint;
+    private Vector2 checkPoint;
     public float respawnDelay = 1f; // Tiempo de espera antes de reaparecer
     public Animator animator;
     public int vida = 10; // Vida del jugador
+    private bool isDying = false;
 
 
-     // Necesario para trabajar con UI
+    // Necesario para trabajar con UI
 
-    public Image image; // Referencia al componente Image
+    public Image healthBar; // Referencia al componente Image
     public Sprite[] sprites; // Array de sprites
     public Sprite defaultSprite;
 
+    public SpriteRenderer spriteRenderer;
+
+    public CinemachineVirtualCamera cinemachineCamera;
+
     private void Start()
     {
+        checkPoint = respawnPoint;
         animator = GetComponent<Animator>();
-        image.sprite = defaultSprite;
+        healthBar.sprite = defaultSprite;
     }
 
 
@@ -30,16 +38,24 @@ public class ColisionEnemigo : MonoBehaviour
     {
         if (vida >= 0 && vida < sprites.Length) // Asegúrate de que el índice esté dentro del rango del array
         {
-            image.sprite = sprites[vida]; // Cambia el sprite basándote en el valor de vida
+            healthBar.sprite = sprites[vida]; // Cambia el sprite basándote en el valor de vida
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (isDying)
+        {
+            return;
+        }
+
         if (collision.gameObject.CompareTag("Enemy")) // Asegúrate de que el enemigo tenga la etiqueta "Enemy"
         {
             // Decrementa la vida
             vida--;
+
+            // Comienza la corrutina de shake en la barra de vida
+            StartCoroutine(ShakeHealthBar());
 
             // Calcula la dirección del rebote
             Vector2 reboundDirection = (transform.position - collision.transform.position).normalized;
@@ -56,6 +72,47 @@ public class ColisionEnemigo : MonoBehaviour
                 // Comienza la corrutina de reaparición
                 StartCoroutine(RespawnAfterDelay());
             }
+            else
+            {
+                // Comienza la corrutina de cambio de color
+                StartCoroutine(ChangeColorAfterDamage());
+            }
+        }
+        else if (collision.gameObject.CompareTag("Pinchos")) // Asegúrate de que el objeto tenga la etiqueta "Pinchos"
+        {
+            // Decrementa la vida
+            vida--;
+
+            // Comienza la corrutina de shake en la barra de vida
+            StartCoroutine(ShakeHealthBar());
+
+            if (!isDying)
+            {
+                PlayerMovement.isDying = true;
+                isDying = true;
+                animator.SetTrigger("Die");
+                if (vida <= 0)
+                {
+                    // Comienza la corrutina de reaparición
+                    StartCoroutine(RespawnAfterDelay());
+                }
+                else
+                {
+                    StartCoroutine(RespawnCheckPointAfterDelay());
+                }
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("CheckPoint"))
+        {
+            Debug.Log("CheckPoint");
+            // Actualiza la posición del checkPoint para que sea la posición del "CheckPoint"
+            checkPoint = collision.transform.position;
+            //Checkpoint debug pos
+            Debug.Log(checkPoint);
         }
     }
 
@@ -71,11 +128,67 @@ public class ColisionEnemigo : MonoBehaviour
         transform.position = respawnPoint;
 
         PlayerMovement.isDying = false;
+        isDying = false;
         animator.Play("Quieto");
 
         // Restablece la vida a 10
         vida = 10;
 
-        image.sprite = defaultSprite; // Establece el sprite por defecto al reaparecer
+        healthBar.sprite = defaultSprite; // Establece el sprite por defecto al reaparecer
     }
+
+    IEnumerator RespawnCheckPointAfterDelay()
+    {
+        // Espera el tiempo especificado
+        yield return new WaitForSeconds(respawnDelay);
+
+        // Detiene el movimiento del personaje
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
+        // "Muerte" del jugador y reaparición en el punto de control
+        transform.position = checkPoint;
+
+        PlayerMovement.isDying = false;
+        isDying = false;
+        animator.Play("Apareciendo");
+    }
+
+    IEnumerator ChangeColorAfterDamage()
+    {
+        // Cambia el color del sprite a rojo
+        spriteRenderer.color = Color.red;
+
+        // Espera 0.2 segundos
+        yield return new WaitForSeconds(0.2f);
+
+        // Cambia el color del sprite de nuevo al original
+        spriteRenderer.color = Color.white;
+    }
+
+    IEnumerator ShakeHealthBar()
+    {
+        RectTransform healthBarRectTransform = healthBar.GetComponent<RectTransform>();
+        Vector3 originalPosition = healthBarRectTransform.localPosition;
+
+        float elapsed = 0.0f;
+        float duration = 0.2f; // Duración del efecto de shake
+        float magnitude = 5f; // Magnitud del efecto de shake
+
+        while (elapsed < duration)
+        {
+            float x = Random.Range(-1f, 1f) * magnitude;
+            float y = Random.Range(-1f, 1f) * magnitude;
+
+            healthBarRectTransform.localPosition = originalPosition + new Vector3(x, y, 0);
+
+            elapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        healthBarRectTransform.localPosition = originalPosition;
+    }
+
+
+
 }
