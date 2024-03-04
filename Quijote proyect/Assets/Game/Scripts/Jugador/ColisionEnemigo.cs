@@ -23,7 +23,7 @@ public class ColisionEnemigo : MonoBehaviour
 
     public SpriteRenderer spriteRenderer;
 
-    public CinemachineVirtualCamera cinemachineCamera;
+    public PauseMenu pauseMenu;
 
     private void Start()
     {
@@ -55,7 +55,11 @@ public class ColisionEnemigo : MonoBehaviour
             vida--;
 
             // Comienza la corrutina de shake en la barra de vida
-            StartCoroutine(ShakeHealthBar());
+            if (vida > 10)
+            {
+                StartCoroutine(ShakeHealthBar());
+            }
+            
 
             // Calcula la dirección del rebote
             Vector2 reboundDirection = (transform.position - collision.transform.position).normalized;
@@ -70,7 +74,7 @@ public class ColisionEnemigo : MonoBehaviour
                 animator.SetTrigger("Die");
 
                 // Comienza la corrutina de reaparición
-                StartCoroutine(RespawnAfterDelay());
+                pauseMenu.GameOver();
             }
             else
             {
@@ -94,7 +98,7 @@ public class ColisionEnemigo : MonoBehaviour
                 if (vida <= 0)
                 {
                     // Comienza la corrutina de reaparición
-                    StartCoroutine(RespawnAfterDelay());
+                    pauseMenu.GameOver();
                 }
                 else
                 {
@@ -114,27 +118,6 @@ public class ColisionEnemigo : MonoBehaviour
             //Checkpoint debug pos
             Debug.Log(checkPoint);
         }
-    }
-
-    IEnumerator RespawnAfterDelay()
-    {
-        // Espera el tiempo especificado
-        yield return new WaitForSeconds(respawnDelay);
-
-        // Detiene el movimiento del personaje
-        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-
-        // "Muerte" del jugador y reaparición en el punto de control
-        transform.position = respawnPoint;
-
-        PlayerMovement.isDying = false;
-        isDying = false;
-        animator.Play("Quieto");
-
-        // Restablece la vida a 10
-        vida = 10;
-
-        healthBar.sprite = defaultSprite; // Establece el sprite por defecto al reaparecer
     }
 
     IEnumerator RespawnCheckPointAfterDelay()
@@ -193,6 +176,8 @@ public class ColisionEnemigo : MonoBehaviour
 
         healthBarRectTransform.localPosition = originalPosition;
     }
+
+
 
 
 
