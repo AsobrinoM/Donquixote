@@ -75,4 +75,9 @@ public class PauseMenu : MonoBehaviour
     {
         return timerText.text;
     }
+
+    public void sum10Seconds()
+    {
+        gameTimer += 10;
+    }
 }

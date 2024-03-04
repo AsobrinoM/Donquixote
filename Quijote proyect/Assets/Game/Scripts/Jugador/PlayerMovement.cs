@@ -1,12 +1,3 @@
-
-/*
-	Created by @DawnosaurDev at youtube.com/c/DawnosaurStudios
-	Thanks so much for checking this out and I hope you find it helpful! 
-	If you have any further queries, questions or feedback feel free to reach out on my twitter or leave a comment on youtube :D
-
-	Feel free to use this in your own games, and I'd love to see anything you make!
- */
-
 using Cinemachine;
 using System.Collections;
 using UnityEngine;
@@ -14,8 +5,6 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerMovement : MonoBehaviour
 {
-    //Scriptable object which holds all the player's movement parameters. If you don't want to use it
-    //just paste in all the parameters, though you will need to manuly change all references in this script
     public PlayerData Data;
 
     #region JOYSTICK
@@ -102,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-    
+
         RB = GetComponent<Rigidbody2D>();
     }
 
@@ -120,10 +109,10 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
 
-       
+
         animator.SetBool("isDying", isDying);
 
-       
+
 
         HandleInput();
 
@@ -340,31 +329,50 @@ public class PlayerMovement : MonoBehaviour
         if (ral)
         {
             SlowDownPlayer(0.5f);
-            Invoke("restablecer",5.0f);
+            Invoke("restablecer", 5.0f);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-     
-       
+
+
         if (collision.CompareTag("GeM"))
         {
             if (_dashesLeft == 0)
             {
 
                 _dashesLeft++;
-       
+
             }
             AudioManager.instance.PlayAudio();
             collision.gameObject.SetActive(false);
             StartCoroutine(ReaparecerObjeto(collision.gameObject));
-           
+
         }
 
         if (collision.CompareTag("GeMBad"))
         {
             ral = true;
             collision.gameObject.SetActive(false);
+            // Obtén una referencia al objeto GameManager
+            GameObject gameManager = GameObject.Find("GameManager");
+            if (gameManager != null)
+            {
+                // Obtén una referencia al script PauseMenu
+                PauseMenu pauseMenu = gameManager.GetComponent<PauseMenu>();
+                if (pauseMenu != null)
+                {
+                    pauseMenu.sum10Seconds();
+                }
+                else
+                {
+                    Debug.LogError("No se ha encontrado el script PauseMenu en el GameManager.");
+                }
+            }
+            else
+            {
+                Debug.LogError("No se ha encontrado el objeto GameManager.");
+            }
         }
 
         if (collision.CompareTag("CheckPoint"))
@@ -417,7 +425,7 @@ public class PlayerMovement : MonoBehaviour
     public void restablecer()
     {
         Vector2 currentVelocity = RB.velocity;
-        currentVelocity.x *=1.0f;
+        currentVelocity.x *= 1.0f;
         RB.velocity = currentVelocity;
         ral = false;
         ChangeColor("#FFFFFF");
@@ -440,7 +448,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-   
+
 
         // Actualizar la direcci?n a la que mira el personaje
         if (horizontalInput != 0)
@@ -455,18 +463,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
-            if (isDying)
-            {
-                luzPersonaje.enabled = false;
-                virtualCamera.enabled = false;
-                return;
-            }
-            else
-            {
-                luzPersonaje.enabled = true;
-                virtualCamera.enabled = true;
-            }
+
+        if (isDying)
+        {
+            luzPersonaje.enabled = false;
+            virtualCamera.enabled = false;
+            return;
+        }
+        else
+        {
+            luzPersonaje.enabled = true;
+            virtualCamera.enabled = true;
+        }
 
         //Handle Run
         if (!IsDashing)
@@ -786,11 +794,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-            if (collision.gameObject.CompareTag("Suelo") && !PlayerMovement.isDying)
-            {
+        if (collision.gameObject.CompareTag("Suelo") && !PlayerMovement.isDying)
+        {
 
-                animator.Play("Quieto");
-            }
+            animator.Play("Quieto");
+        }
     }
 
     public void forceRight()
