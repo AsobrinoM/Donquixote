@@ -27,10 +27,21 @@ public class ChangeScene : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            PlayerPrefs.SetInt(nivelActual, 1);
-            pauseMenu.pauseTimer(); // Cambia gameManager a pauseMenu
-            playerMovement.forceRight();
-            StartCoroutine(ActivatePanel());
+            if (nivelActual == "Nivel4")
+            {
+                PlayerPrefs.SetInt(nivelActual, 1);
+                pauseMenu.pauseTimer(); // Cambia gameManager a pauseMenu
+                playerMovement.forceRight();
+                StartCoroutine(UpdateScore());
+            }
+            else
+            {
+                PlayerPrefs.SetInt(nivelActual, 1);
+                pauseMenu.pauseTimer(); // Cambia gameManager a pauseMenu
+                playerMovement.forceRight();
+                StartCoroutine(ActivatePanel());
+            }
+
         }
     }
 
@@ -60,14 +71,55 @@ public class ChangeScene : MonoBehaviour
         float finalTime = pauseMenu.GetGameTime();
         finalScore = (int)(10000 / finalTime); // Aumenta el numerador para obtener una puntuación más alta
         int currentScore = 0;
-        while (currentScore < finalScore)
+
+        SaveScoreToPlayerPrefs();
+        if (nivelActual != "Nivel4")
         {
-            currentScore += (int)(Time.deltaTime * 500); // Aumenta el factor de incremento para que la puntuación se incremente más rápido
-            scoreText.text = currentScore.ToString() + "\nPoints"; // Agrega " Points" al final del texto de la puntuación
-            yield return null;
+            while (currentScore < finalScore)
+            {
+                currentScore += (int)(Time.deltaTime * 500); // Aumenta el factor de incremento para que la puntuación se incremente más rápido
+                scoreText.text = currentScore.ToString() + "\nPoints"; // Agrega " Points" al final del texto de la puntuación
+                yield return null;
+            }
+            // Asegúrate de que la puntuación final sea exactamente igual a finalScore
+            scoreText.text = finalScore.ToString() + "\nPoints"; // Agrega " Points" al final del texto de la puntuación
         }
-        // Asegúrate de que la puntuación final sea exactamente igual a finalScore
-        scoreText.text = finalScore.ToString() + "\nPoints"; // Agrega " Points" al final del texto de la puntuación
+        else
+        {
+            FadeManager.Instance.FadeToScene("Cutscene Final");
+        }
+
+        //Verify is actual score is greater than the stored score
+
+        //compare nivelActual string with "Nievel1" or "Nivel2" or "Nivel3" or "Nivel4" with equals method
+
+
+    }
+
+    void SaveScoreToPlayerPrefs()
+    {
+        if (nivelActual == "Nivel1")
+        {
+            PlayerPrefs.SetInt("ScoreNivel1", finalScore);
+            Debug.Log("ScoreNivel1: " + PlayerPrefs.GetInt("ScoreNivel1"));
+        }
+        else if (nivelActual == "Nivel2")
+        {
+            PlayerPrefs.SetInt("ScoreNivel2", finalScore);
+            Debug.Log("ScoreNivel2: " + PlayerPrefs.GetInt("ScoreNivel2"));
+        }
+        else if (nivelActual == "Nivel3")
+        {
+            PlayerPrefs.SetInt("ScoreNivel3", finalScore);
+            Debug.Log("ScoreNivel3: " + PlayerPrefs.GetInt("ScoreNivel3"));
+        }
+        else if (nivelActual == "Nivel4")
+        {
+            PlayerPrefs.SetInt("ScoreNivel4", finalScore);
+            Debug.Log("ScoreNivel4: " + PlayerPrefs.GetInt("ScoreNivel4"));
+        }
+
+        PlayerPrefs.Save();
     }
 
     public int GetSomeVariable()

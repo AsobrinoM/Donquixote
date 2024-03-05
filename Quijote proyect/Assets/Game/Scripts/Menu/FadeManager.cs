@@ -52,6 +52,7 @@ public class FadeManager : MonoBehaviour
     public void FadeToScene(string sceneName)
     {
         StartCoroutine(FadeOutAndLoadScene(sceneName));
+
     }
 
     private IEnumerator FadeOutAndLoadScene(string sceneName)
