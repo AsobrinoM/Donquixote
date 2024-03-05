@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public PlayerData Data;
 
     #region JOYSTICK
-    public Joystick joystick;
+    public FixedJoystick joystick;
 
     #endregion
 
@@ -97,6 +97,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool wasOnGround;
 
+    public bool isUsingKeyboard;
+
     private void Awake()
     {
 
@@ -116,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-
+       
 
         animator.SetBool("isDying", isDying);
 
@@ -156,28 +158,29 @@ public class PlayerMovement : MonoBehaviour
             fallAnimationTimer = fallAnimationCooldown; // Reset the timer
         }
 
-        _moveInput.x = forceMoveRight ? 1 : Input.GetAxisRaw("Horizontal");
-        _moveInput.y = Input.GetAxisRaw("Vertical");
+        
 
-        /**
-        if (joystick.Horizontal >= .2f)
+        // Si se están utilizando los controles del teclado, establece isUsingKeyboard a true
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         {
-            _moveInput.x = 1f;
+            isUsingKeyboard = true;
         }
-        else if (joystick.Horizontal <= -.2f)
+        // Si se está utilizando el joystick, establece isUsingKeyboard a false
+        else if (joystick.Horizontal != 0f || joystick.Vertical != 0f)
         {
-            _moveInput.x = -1f;
+            isUsingKeyboard = false;
+        }
+
+        if (isUsingKeyboard)
+        {
+            _moveInput.x = forceMoveRight ? 1 : Input.GetAxisRaw("Horizontal");
+            _moveInput.y = Input.GetAxisRaw("Vertical");
         }
         else
         {
-            _moveInput.x = 0f;
+            _moveInput.x = joystick.Horizontal;
+            _moveInput.y = joystick.Vertical;
         }
-
-        if (_moveInput.x != 0)
-		{
-			CheckDirectionToFace(_moveInput.x > 0);
-		}
-		*/
 
         bool isRunning = Mathf.Abs(_moveInput.x) > 0;
         animator.SetBool("isRunning", isRunning);
@@ -466,20 +469,26 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleInput()
     {
-        // Obtener la entrada del teclado
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float horizontalInput;
 
+        // Si se está utilizando el teclado, obtén la entrada del teclado
+        if (isUsingKeyboard)
+        {
+            horizontalInput = Input.GetAxisRaw("Horizontal");
+        }
+        // Si se está utilizando el joystick, obtén la entrada del joystick
+        else
+        {
+            horizontalInput = joystick.Horizontal;
+        }
 
-
-
-
-        // Actualizar la direcci?n a la que mira el personaje
+        // Actualizar la dirección a la que mira el personaje
         if (horizontalInput != 0)
         {
             CheckDirectionToFace(horizontalInput > 0);
         }
 
-        // Actualizar el par?metro de animaci?n "isRunning" basado en la entrada del teclado
+        // Actualizar el parámetro de animación "isRunning" basado en la entrada
         bool isRunning = Mathf.Abs(horizontalInput) > 0;
         animator.SetBool("isRunning", isRunning);
     }
