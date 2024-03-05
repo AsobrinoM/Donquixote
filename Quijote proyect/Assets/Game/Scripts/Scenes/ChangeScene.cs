@@ -11,10 +11,11 @@ public class ChangeScene : MonoBehaviour
     private PauseMenu pauseMenu;
     [SerializeField] public GameObject FinalMenuPanel;
     [SerializeField] public GameObject panelNegro;
+    public string nivelActual;
     [SerializeField] private PlayerMovement playerMovement;
 
     [SerializeField] private TextMeshProUGUI scoreText; // Si estás usando TextMesh Pro
-    public int finalScore;
+    private int finalScore;
 
     void Start()
     {
@@ -24,14 +25,14 @@ public class ChangeScene : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-    if (collision.gameObject.tag == "Player")
-    {
-        PlayerPrefs.SetInt("Nivel1", 1);
-        pauseMenu.pauseTimer(); // Cambia gameManager a pauseMenu
-        playerMovement.forceRight();
-        StartCoroutine(ActivatePanel());
+        if (collision.gameObject.tag == "Player")
+        {
+            PlayerPrefs.SetInt(nivelActual, 1);
+            pauseMenu.pauseTimer(); // Cambia gameManager a pauseMenu
+            playerMovement.forceRight();
+            StartCoroutine(ActivatePanel());
+        }
     }
-}
 
     IEnumerator ActivatePanel()
     {

@@ -9,6 +9,7 @@ public class PauseMenu : MonoBehaviour
 
     [SerializeField] public GameObject PauseMenuPanel;
     [SerializeField] public GameObject GameOverPanel;
+    [SerializeField] public GameObject panelNegro;
     [SerializeField] public GameObject PauseButton;
     [SerializeField] public GameObject FinalMenuPanel;
     [SerializeField] private TMP_Text timerText;
@@ -17,6 +18,8 @@ public class PauseMenu : MonoBehaviour
 
     private float gameTimer = 0.0f;
     private bool isPaused = false;
+
+    private bool isGameOver = false;
 
     void Update()
     {
@@ -51,9 +54,10 @@ public class PauseMenu : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1;
+        Debug.Log("Time.timeScale after restart: " + Time.timeScale);
         PauseButton.SetActive(true);
         PauseMenuPanel.SetActive(false);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        FadeManager.Instance.FadeToScene(SceneManager.GetActiveScene().name);
     }
 
     public void MenuGame()
@@ -89,16 +93,22 @@ public class PauseMenu : MonoBehaviour
 
     public void GameOver()
     {
-        Time.timeScale = 0;
-        isPaused = true;
-        StartCoroutine(ActivateGameOverPanel());
+        if (!isGameOver)
+        {
+            isGameOver = true;
+            isPaused = true;
+            
+            StartCoroutine(ActivateGameOverPanel());
+        }
     }
 
     IEnumerator ActivateGameOverPanel()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
+        panelNegro.SetActive(true);
+        Time.timeScale = 0;
         GameOverPanel.SetActive(true);
-        StartCoroutine(ShowGameOverPanel());
+        yield return StartCoroutine(ShowGameOverPanel());
     }
 
     IEnumerator ShowGameOverPanel()
@@ -107,7 +117,7 @@ public class PauseMenu : MonoBehaviour
         float timer = 0;
         while (timer < 1)
         {
-            timer += Time.deltaTime * 2; // 2 es la velocidad de la animación
+            timer += Time.unscaledDeltaTime * 2; // 2 es la velocidad de la animación
             GameOverPanel.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, timer);
             yield return null;
         }

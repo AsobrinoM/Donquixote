@@ -11,6 +11,10 @@ public class ControlMenu : MonoBehaviour
     [SerializeField] public GameObject btnCreditos;
     [SerializeField] public GameObject btnSalir;
 
+    [SerializeField] public GameObject PanelNegro;
+    [SerializeField] public GameObject PanelHighScore;
+    [SerializeField] public GameObject btnHighScore;
+
     public void onButtonJugar()
     {
         FadeManager.Instance.FadeToScene("Seleccion Niveles");
@@ -28,6 +32,18 @@ public class ControlMenu : MonoBehaviour
     public void onButtonVolver()
     {
         FadeManager.Instance.FadeToScene("Menu");
+    }
+    public void onButtonHighScore()
+    {
+        btnHighScore.SetActive(false);
+        PanelNegro.SetActive(true);
+        PanelHighScore.SetActive(true);
+    }
+    public void onButtonCerrarHighScore()
+    {
+        btnHighScore.SetActive(true);
+        PanelNegro.SetActive(false);
+        PanelHighScore.SetActive(false);
     }
 
 

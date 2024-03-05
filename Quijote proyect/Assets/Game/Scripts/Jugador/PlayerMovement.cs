@@ -90,6 +90,13 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 checkPointPosition;
 
+    private bool isFallingAnimation = false;
+
+    private float fallAnimationCooldown = 0.2f; // Time in seconds to wait before the "Fall" animation can be triggered again
+    private float fallAnimationTimer = 0;
+
+    private bool wasOnGround;
+
     private void Awake()
     {
 
@@ -130,10 +137,23 @@ public class PlayerMovement : MonoBehaviour
 
         #region INPUT HANDLER
 
+        bool isOnGround = Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer);
 
-        if (IsJumping && RB.velocity.y < 0 && !_isJumpFalling)
+        if (isOnGround && !wasOnGround) // If the player is on the ground and was not on the ground in the previous frame
+        {
+            isFallingAnimation = false;
+            animator.Play("Quieto");
+        }
+
+        wasOnGround = isOnGround;
+
+        fallAnimationTimer -= Time.deltaTime;
+
+        if (RB.velocity.y < 0 && !isFallingAnimation && !Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer))
         {
             animator.SetTrigger("Fall");
+            isFallingAnimation = true;
+            fallAnimationTimer = fallAnimationCooldown; // Reset the timer
         }
 
         _moveInput.x = forceMoveRight ? 1 : Input.GetAxisRaw("Horizontal");
@@ -187,6 +207,7 @@ public class PlayerMovement : MonoBehaviour
             if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
             {
                 LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
+                isFallingAnimation = false;
             }
             //Right Wall Check
             if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
@@ -799,7 +820,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Suelo") && !PlayerMovement.isDying && !PlayerMovement.isRespawning)
         {
             // Verifica si la animación "Apareciendo" está en reproducción
-
+            isFallingAnimation = false;
             Debug.Log("Aterrizando");
             animator.Play("Quieto");
         }

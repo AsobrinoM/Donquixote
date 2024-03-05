@@ -27,6 +27,8 @@ public class ColisionEnemigo : MonoBehaviour
 
     private void Start()
     {
+        PlayerMovement.isDying = false;
+        PlayerMovement.isRespawning = false;
         checkPoint = respawnPoint;
         animator = GetComponent<Animator>();
         healthBar.sprite = defaultSprite;
@@ -72,6 +74,8 @@ public class ColisionEnemigo : MonoBehaviour
             {
                 PlayerMovement.isDying = true;
                 animator.SetTrigger("Die");
+
+                Debug.Log("morido");
 
                 // Comienza la corrutina de reaparición
                 pauseMenu.GameOver();
