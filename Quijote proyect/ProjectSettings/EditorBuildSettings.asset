@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Tutorial.unity
     guid: a54b2420b0f04ef44be6085f7b3f2130
   - enabled: 1
-    path: Assets/Scenes/Escena Alex.unity
+    path: Assets/Scenes/Escena Alex antigua.unity
     guid: e6dd47c9ef6fbe848bbe0a5036018a38
   - enabled: 1
     path: Assets/Scenes/Escena Antonio.unity
