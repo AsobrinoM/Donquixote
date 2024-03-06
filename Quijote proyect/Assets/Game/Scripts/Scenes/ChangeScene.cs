@@ -69,7 +69,7 @@ public class ChangeScene : MonoBehaviour
     IEnumerator UpdateScore()
     {
         float finalTime = pauseMenu.GetGameTime();
-        finalScore = (int)(10000 / finalTime); // Aumenta el numerador para obtener una puntuación más alta
+        finalScore = (int)(100000 / finalTime); // Aumenta el numerador para obtener una puntuación más alta
         int currentScore = 0;
 
         SaveScoreToPlayerPrefs();
