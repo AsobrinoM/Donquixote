@@ -47,13 +47,14 @@ public class EnemigoHollow : MonoBehaviour
         {
             Debug.DrawRay(obstacleRayObject.transform.position, Vector2.right * rayDistance, Color.green);
         }
+    }
 
-        EnemyRB.velocity = Vector2.right * speed * Time.deltaTime;
+    void FixedUpdate()
+    {
+        EnemyRB.velocity = Vector2.right * speed * Time.fixedDeltaTime;
 
-        // Obtiene todos los colliders que se superponen con el círculo
         Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.transform.position, circleRadius, groundLayer);
 
-        // Comprueba si todos los puntos del collider están en el suelo
         if (colliders.Length > 0)
         {
             isGrounded = true;
@@ -80,9 +81,6 @@ public class EnemigoHollow : MonoBehaviour
             hasFlippedDueToWallCollision = false;
         }
 
-        wasGrounded = isGrounded;
-
-        // Almacena si el personaje está en el suelo para el próximo frame
         wasGrounded = isGrounded;
     }
 
