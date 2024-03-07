@@ -370,8 +370,12 @@ public class PlayerMovement : MonoBehaviour
 
             }
             AudioManager.instance.PlayAudio();
-            collision.gameObject.SetActive(false);
-            StartCoroutine(ReaparecerObjeto(collision.gameObject));
+            GameObject parentObject = collision.gameObject.transform.parent.gameObject;
+            if (parentObject != null)
+            {
+                parentObject.SetActive(false);
+                StartCoroutine(ReaparecerObjeto(parentObject));
+            }
 
         }
 
@@ -463,8 +467,12 @@ public class PlayerMovement : MonoBehaviour
         // Espera 3 segundos
         yield return new WaitForSeconds(3);
 
-        // Reactiva el objeto
-        objeto.SetActive(true);
+        // Reactiva el objeto padre
+        GameObject parentObject = objeto.transform.parent.gameObject;
+        if (parentObject != null)
+        {
+            parentObject.SetActive(true);
+        }
     }
 
     private void HandleInput()

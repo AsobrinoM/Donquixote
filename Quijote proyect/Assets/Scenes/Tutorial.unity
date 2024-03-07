@@ -232,6 +232,7 @@ GameObject:
   - component: {fileID: 31705751}
   - component: {fileID: 31705754}
   - component: {fileID: 31705753}
+  - component: {fileID: 31705757}
   - component: {fileID: 31705756}
   m_Layer: 5
   m_Name: Dash
@@ -353,6 +354,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &31705757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31705750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06fd2b035a00354f8eeced415126f9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMovement: {fileID: 2034675925}
 --- !u!1 &34310532
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,7 +475,7 @@ GameObject:
   m_Component:
   - component: {fileID: 37582889}
   - component: {fileID: 37582890}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5102,7 +5116,7 @@ Transform:
   m_GameObject: {fileID: 586401270}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.4545884, y: -0.9200002, z: 1}
+  m_LocalPosition: {x: -4.4546432, y: -0.9200002, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -5663,7 +5677,7 @@ Transform:
   m_GameObject: {fileID: 646218354}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.0360503, y: -0.9200002, z: 5}
+  m_LocalPosition: {x: -2.0362697, y: -0.9200002, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -6279,7 +6293,7 @@ Transform:
   m_GameObject: {fileID: 719477573}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -44.182285, y: -0.141, z: -10}
+  m_LocalPosition: {x: -44.18585, y: -0.14098999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7115,7 +7129,7 @@ Transform:
   m_GameObject: {fileID: 865489815}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.0669355, y: -0.729705, z: -1}
+  m_LocalPosition: {x: -6.0668807, y: -0.729705, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -7308,9 +7322,9 @@ GameObject:
   - component: {fileID: 905482109}
   - component: {fileID: 905482111}
   - component: {fileID: 905482110}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Campfire
-  m_TagString: Untagged
+  m_TagString: Suelo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9925,7 +9939,7 @@ Transform:
   m_GameObject: {fileID: 1297839923}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.38035268, y: -0.9200002, z: 8}
+  m_LocalPosition: {x: 0.37996897, y: -0.9200002, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -10075,7 +10089,7 @@ Transform:
   m_GameObject: {fileID: 1330572280}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.18877, y: -0.92, z: 9}
+  m_LocalPosition: {x: 1.1883315, y: -0.92, z: 9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -25904,7 +25918,7 @@ Transform:
   m_GameObject: {fileID: 1507692989}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.0360503, y: -0.9200002, z: 4}
+  m_LocalPosition: {x: -2.0362697, y: -0.9200002, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -27169,7 +27183,7 @@ Transform:
   m_GameObject: {fileID: 1681316195}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.6483893, y: -0.9200002, z: 2}
+  m_LocalPosition: {x: -3.648499, y: -0.9200002, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -27304,7 +27318,7 @@ Transform:
   m_GameObject: {fileID: 1698505881}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.8433049, y: -0.9200002, z: 3}
+  m_LocalPosition: {x: -2.8434694, y: -0.9200002, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -27739,6 +27753,10 @@ PrefabInstance:
     - target: {fileID: 1206252548976448367, guid: c1f3949840ae19c4684382172374093a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4883879145058338963, guid: c1f3949840ae19c4684382172374093a, type: 3}
+      propertyPath: m_TagString
+      value: GeM
       objectReference: {fileID: 0}
     - target: {fileID: 5308124873574277039, guid: c1f3949840ae19c4684382172374093a, type: 3}
       propertyPath: m_Name
@@ -28227,7 +28245,7 @@ Transform:
   m_GameObject: {fileID: 1949018624}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.229275, y: -0.9200002, z: 6}
+  m_LocalPosition: {x: -1.229549, y: -0.9200002, z: 6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -28533,7 +28551,7 @@ Transform:
   m_GameObject: {fileID: 2017346032}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.42586005, y: -0.9200002, z: 7}
+  m_LocalPosition: {x: -0.42618895, y: -0.9200002, z: 7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -28635,7 +28653,7 @@ Transform:
   m_GameObject: {fileID: 2026962650}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.6483893, y: -0.9200002, z: 2}
+  m_LocalPosition: {x: -3.648499, y: -0.9200002, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -28761,7 +28779,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2047610356
 RectTransform:
   m_ObjectHideFlags: 0
