@@ -179,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             // Si la entrada del joystick es mayor que un pequeño umbral, se considera que es máxima
-            _moveInput.x = Mathf.Abs(joystick.Horizontal) > 0.1f ? Mathf.Sign(joystick.Horizontal) : joystick.Horizontal;
+            _moveInput.x = forceMoveRight ? 1 : (Mathf.Abs(joystick.Horizontal) > 0.1f ? Mathf.Sign(joystick.Horizontal) : joystick.Horizontal);
             _moveInput.y = joystick.Vertical;
         }
 
@@ -468,11 +468,10 @@ public class PlayerMovement : MonoBehaviour
         // Espera 3 segundos
         yield return new WaitForSeconds(3);
 
-        // Reactiva el objeto padre
-        GameObject parentObject = objeto.transform.parent.gameObject;
-        if (parentObject != null)
+        // Reactiva el objeto
+        if (objeto != null)
         {
-            parentObject.SetActive(true);
+            objeto.SetActive(true);
         }
     }
 

@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 2686446867503583170}
   - component: {fileID: 3209041788893121400}
   - component: {fileID: 1597109434449201772}
+  - component: {fileID: 684714431050893371}
   m_Layer: 0
   m_Name: Jugador
   m_TagString: Player
@@ -220,6 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: d031829f90009bc45b9a42b50fc5a67a, type: 2}
+  joystick: {fileID: 0}
   _groundCheckPoint: {fileID: 8379274698186320011}
   _groundCheckSize: {x: 0.39, y: 0.3}
   _frontWallCheckPoint: {fileID: 1820181659312529920}
@@ -228,6 +230,12 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  virtualCamera: {fileID: 0}
+  luzPersonaje: {fileID: 0}
+  forceMoveRight: 0
+  ral: 0
+  Jugador: {fileID: 0}
+  isUsingKeyboard: 0
 --- !u!114 &1597109434449201772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,6 +251,21 @@ MonoBehaviour:
   reboundForce: 10
   respawnPoint: {x: 1.45, y: 0}
   respawnDelay: 1
+  animator: {fileID: 0}
+  vida: 10
+  healthBar: {fileID: 0}
+  sprites: []
+  defaultSprite: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  pauseMenu: {fileID: 0}
+--- !u!81 &684714431050893371
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805693043032636132}
+  m_Enabled: 1
 --- !u!1 &4799849175713488539
 GameObject:
   m_ObjectHideFlags: 0
