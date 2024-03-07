@@ -13,6 +13,7 @@ public class MusicaPersistente : MonoBehaviour
 
     [SerializeField] private AudioClip musicaMenu;
     [SerializeField] private AudioClip musicaTutorial;
+    [SerializeField] private float duracionFundido = 2.0f;
     private AudioClip ultimoClipReproducido;
 
     void Awake()
@@ -39,25 +40,50 @@ public class MusicaPersistente : MonoBehaviour
 
     void CambiarMusicaSegunEscena(Scene escena, LoadSceneMode modo)
     {
-        AudioClip nuevoClip = null;
-        switch (escena.name)
-        {
-            case "Menu":
-                nuevoClip = musicaMenu;
-                break;
-            case "Tutorial":
-                nuevoClip = musicaTutorial;
-                break;
-               
-        }
+        StartCoroutine(FundidoSuave(escena));
+    }
+
+    IEnumerator FundidoSuave(Scene escena)
+    {
+        float tiempoInicio = Time.time;
+        float volumenInicial = audioSource.volume;
+
+       
+
+        audioSource.volume = volumenInicial;
+
+        AudioClip nuevoClip = ObtenerNuevoClip(escena);
+
         if (nuevoClip != null && nuevoClip != ultimoClipReproducido)
         {
+            while (audioSource.volume > 0)
+            {
+                float tiempoPasado = Time.time - tiempoInicio;
+                float porcentaje = Mathf.Clamp01(tiempoPasado / duracionFundido);
+
+                audioSource.volume = Mathf.Lerp(volumenInicial, 0, porcentaje);
+                yield return null;
+            }
             audioSource.clip = nuevoClip;
+            audioSource.volume = 1.0f;
             audioSource.Play();
             ultimoClipReproducido = nuevoClip;
         }
-       
+        
     }
 
-       
+    AudioClip ObtenerNuevoClip(Scene escena)
+    {
+        switch (escena.name)
+        {
+            case "Menu":
+            case "Seleccion Niveles":
+                return musicaMenu;
+            case "Tutorial":
+                return musicaTutorial;
+            // Añade más casos según sea necesario
+            default:
+                return null;
+        }
     }
+}
