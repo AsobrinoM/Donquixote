@@ -2322,7 +2322,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicaMenu: {fileID: 8300000, guid: adfef872b68e41e40bf7c8430cf85334, type: 3}
-  musicaTutorial: {fileID: 8300000, guid: a8072e7a4842b3a41aa138eceaa1db46, type: 3}
+  musicaTutorial: {fileID: 8300000, guid: 345c4a6353a237042bd23ea8ac5d2350, type: 3}
+  duracionFundido: 2
 --- !u!82 &1534382217
 AudioSource:
   m_ObjectHideFlags: 0
