@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemigoHollow : MonoBehaviour
@@ -19,9 +20,33 @@ public class EnemigoHollow : MonoBehaviour
     public bool isWallCollisionLeft;
     public bool hasFlippedDueToWallCollision;
 
+    public GameObject obstacleRayObject;
+
+    [SerializeField] float rayDistance = 1f;
+
+    [SerializeField] LayerMask playerLayer;
+
+    public GameObject player;
+
+
     void Start()
     {
         EnemyRB = GetComponent<Rigidbody2D>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        RaycastHit2D hitPlayer = Physics2D.Raycast(obstacleRayObject.transform.position, Vector2.right, rayDistance, playerLayer);
+
+        if (hitPlayer.collider != null)
+        {
+            Debug.DrawRay(obstacleRayObject.transform.position, Vector2.right * rayDistance, Color.red);
+        }
+        else
+        {
+            Debug.DrawRay(obstacleRayObject.transform.position, Vector2.right * rayDistance, Color.green);
+        }
     }
 
     void FixedUpdate()
