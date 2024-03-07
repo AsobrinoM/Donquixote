@@ -413,6 +413,9 @@ MonoBehaviour:
   PanelNegro: {fileID: 0}
   PanelHighScore: {fileID: 0}
   btnHighScore: {fileID: 0}
+  highScore1: {fileID: 0}
+  highScore2: {fileID: 0}
+  highScore3: {fileID: 0}
 --- !u!4 &419312618
 Transform:
   m_ObjectHideFlags: 0
@@ -955,12 +958,14 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Juego Hecho por Ruben Javier Bacho Alarcon, Alejandro Serrano Ona y Antonio
-    Sobrino Martin\nIES Maestre de cva Programaci\xF3n multimedia y dispositivos
-    moviles, 2024\n\nLegacy Adventure Pack \u2013Forest  Creditos a Anokolisa\r\nPixel
-    Art Platformer \u2013Village Props  Creditos a Cainos\r\nPixel purple gem \u2013Lunarnia\r\nFree
+    Sobrino Martin\nIES Maestre de Cva Programacion multimedia y dispositivos moviles,
+    2024\n\nLegacy Adventure Pack \u2013Forest  Creditos a Anokolisa\r\nPixel Art
+    Platformer \u2013Village Props  Creditos a Cainos\r\nPixel purple gem \u2013Lunarnia\r\nFree
     Forest Bosses Pixel Art Sprite Sheet pack Creditos a  SwiftJinx\r\nHooded Protagonist
     Creditos a penzilla.\r\nParallax Super Mountain Dusk Files Creditos a ansimuz\r\nParallax
-    mountain pack Creditos a Luis Zuno\r\nPixel Art Forest Creditos a edermunizz\r\n"
+    mountain pack Creditos a Luis Zuno\r\nPixel Art Forest Creditos a edermunizz\r\nMagic
+    Forest Night  Produced & Composed by: Miguelangell960\nCapfire Sound Effect by
+    Mikhail from Pixabay\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1decca11ca31a6d40bd12bb63cf56576, type: 2}
   m_sharedMaterial: {fileID: 6608013626986868464, guid: 1decca11ca31a6d40bd12bb63cf56576, type: 2}
