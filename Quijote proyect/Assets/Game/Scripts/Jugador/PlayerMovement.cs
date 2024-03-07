@@ -178,7 +178,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            _moveInput.x = joystick.Horizontal;
+            // Si la entrada del joystick es mayor que un pequeño umbral, se considera que es máxima
+            _moveInput.x = Mathf.Abs(joystick.Horizontal) > 0.1f ? Mathf.Sign(joystick.Horizontal) : joystick.Horizontal;
             _moveInput.y = joystick.Vertical;
         }
 
