@@ -3092,7 +3092,7 @@ PrefabInstance:
     - target: {fileID: 3209041788893121400, guid: d541b440ece4e984e801aa2f9d3bdc58, type: 3}
       propertyPath: luzPersonaje
       value: 
-      objectReference: {fileID: 1923876417}
+      objectReference: {fileID: 499805736}
     - target: {fileID: 3209041788893121400, guid: d541b440ece4e984e801aa2f9d3bdc58, type: 3}
       propertyPath: virtualCamera
       value: 
@@ -3239,6 +3239,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca6bec70efdaeb44aa60fec064fd3604, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &499805736 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6448703138162260078, guid: d541b440ece4e984e801aa2f9d3bdc58, type: 3}
+  m_PrefabInstance: {fileID: 499805734}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &499805743 stripped
