@@ -2325,7 +2325,7 @@ MonoBehaviour:
   musicaTutorial: {fileID: 8300000, guid: 345c4a6353a237042bd23ea8ac5d2350, type: 3}
   musicaEscenaAlex: {fileID: 8300000, guid: 83f72f29e3b0fb44ebe37eb0da839f43, type: 3}
   musicaEscenaAntonio: {fileID: 8300000, guid: fddf9cd118ac81b48998bcf7321f3fad, type: 3}
-  musicaNivelFinal: {fileID: 0}
+  musicaNivelFinal: {fileID: 8300000, guid: d726cb3dbbaaa9b47b2136e7e2e1f865, type: 3}
   duracionFundido: 2
 --- !u!82 &1534382217
 AudioSource:
