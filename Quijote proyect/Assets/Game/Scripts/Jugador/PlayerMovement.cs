@@ -572,10 +572,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnDashInput()
     {
-        Jugador.color = dashColor;
         if (!isDying)
         {
             LastPressedDashTime = Data.dashInputBufferTime;
+            Jugador.color = dashColor;
         }
     }
     #endregion
@@ -883,4 +883,5 @@ public class PlayerMovement : MonoBehaviour
         // Then play the next animation
         animator.Play(animationName);
     }
+
 }
