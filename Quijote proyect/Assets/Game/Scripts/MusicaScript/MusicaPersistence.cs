@@ -45,6 +45,7 @@ public class MusicaPersistente : MonoBehaviour
     void CambiarMusicaSegunEscena(Scene escena, LoadSceneMode modo)
     {
         StartCoroutine(FundidoSuave(escena));
+       
     }
 
     IEnumerator FundidoSuave(Scene escena)
@@ -69,7 +70,15 @@ public class MusicaPersistente : MonoBehaviour
                 yield return null;
             }
             audioSource.clip = nuevoClip;
-            audioSource.volume = 1.0f;
+            if (audioSource.clip == musicaTutorial || escena.name == "Seleccion Niveles" || escena.name == "Menu" || escena.name == "Creditos")
+            {
+                audioSource.volume = 0.28f;
+            }
+            else
+            {
+                audioSource.volume = 1f;
+            }
+          
             audioSource.Play();
             ultimoClipReproducido = nuevoClip;
         }
