@@ -87,7 +87,8 @@ public class MusicaPersistente : MonoBehaviour
                 return musicaTutorial;
             case "Escena Alex":
                 return musicaEscenaAlex;
-            // Añade más casos según sea necesario
+            case "Escena Antonio":
+                return musicaEscenaAntonio;
             default:
                 return null;
         }
