@@ -16118,6 +16118,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1580749541}
     - target: {fileID: 1597109434449201772, guid: d541b440ece4e984e801aa2f9d3bdc58, type: 3}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 1520720142}
+    - target: {fileID: 1597109434449201772, guid: d541b440ece4e984e801aa2f9d3bdc58, type: 3}
       propertyPath: defaultSprite
       value: 
       objectReference: {fileID: 953886127, guid: d53ef161dab8188438a7e2d7aa664819, type: 3}

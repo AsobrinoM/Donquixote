@@ -141,17 +141,23 @@ public class PlayerMovement : MonoBehaviour
 
         bool isOnGround = Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer);
 
-        if (isOnGround && !wasOnGround) // If the player is on the ground and was not on the ground in the previous frame
+        if (isOnGround && !wasOnGround && !PlayerMovement.isRespawning) // If the player is on the ground, was not on the ground in the previous frame, and is not respawning
         {
             isFallingAnimation = false;
-            animator.Play("Quieto");
+
+            // Check if the "Apareciendo" animation is playing
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Apareciendo"))
+            {
+                // If it's not, play the "Quieto" animation immediately
+                animator.Play("Quieto");
+            }
         }
 
         wasOnGround = isOnGround;
 
         fallAnimationTimer -= Time.deltaTime;
 
-        if (RB.velocity.y < 0 && !isFallingAnimation && !Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer))
+        if (RB.velocity.y < 0 && !isFallingAnimation && !Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !PlayerMovement.isRespawning && !animator.GetCurrentAnimatorStateInfo(0).IsName("Apareciendo"))
         {
             animator.SetTrigger("Fall");
             isFallingAnimation = true;
@@ -847,8 +853,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Suelo") && !PlayerMovement.isDying && !PlayerMovement.isRespawning)
         {
+            //another log dont use Debug.Log pls use Debug.LogError
+            Debug.LogError("Aterrizando");
+
             // Verifica si la animación "Apareciendo" está en reproducción
-            isFallingAnimation = false;
+            isFallingAnimation = false; animator.Play("Quieto");
             Debug.Log("Aterrizando");
             animator.Play("Quieto");
         }
@@ -859,4 +868,15 @@ public class PlayerMovement : MonoBehaviour
         forceMoveRight = true;
     }
 
+    private IEnumerator WaitForAnimation(Animator animator, string animationName)
+    {
+        // Wait until the current animation has finished
+        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        {
+            yield return null;
+        }
+
+        // Then play the next animation
+        animator.Play(animationName);
+    }
 }
