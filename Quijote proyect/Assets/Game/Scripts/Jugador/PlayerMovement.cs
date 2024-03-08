@@ -87,6 +87,8 @@ public class PlayerMovement : MonoBehaviour
     public bool ral;
 
     public SpriteRenderer Jugador;// Ahora este campo contendr� la referencia al SpriteRenderer del jugador
+    public Color dashColor = Color.red; // Color during dash
+    public Color normalColor = Color.white; // Normal color
 
     private Vector2 checkPointPosition;
 
@@ -218,6 +220,7 @@ public class PlayerMovement : MonoBehaviour
             //Ground Check
             if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
             {
+                Jugador.color = normalColor;
                 LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
                 isFallingAnimation = false;
             }
@@ -569,6 +572,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnDashInput()
     {
+        Jugador.color = dashColor;
         if (!isDying)
         {
             LastPressedDashTime = Data.dashInputBufferTime;
@@ -755,6 +759,8 @@ public class PlayerMovement : MonoBehaviour
 
         //Dash over
         IsDashing = false;
+
+       
     }
 
     //Short period before the player is able to dash again
@@ -854,11 +860,9 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Suelo") && !PlayerMovement.isDying && !PlayerMovement.isRespawning)
         {
             //another log dont use Debug.Log pls use Debug.LogError
-            Debug.LogError("Aterrizando");
 
             // Verifica si la animación "Apareciendo" está en reproducción
             isFallingAnimation = false; animator.Play("Quieto");
-            Debug.Log("Aterrizando");
             animator.Play("Quieto");
         }
     }
