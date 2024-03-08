@@ -375,6 +375,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (collision.CompareTag("GeM"))
         {
+            Jugador.color = normalColor;
             if (_dashesLeft == 0)
             {
 

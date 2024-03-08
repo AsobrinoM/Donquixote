@@ -4594,10 +4594,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1512163113}
-  - {fileID: 2134586202}
   - {fileID: 1433066051}
   - {fileID: 561172649}
   - {fileID: 1371813044}
+  - {fileID: 2134586202}
   - {fileID: 979450686}
   - {fileID: 931180752}
   - {fileID: 1006812334}
@@ -28976,6 +28976,10 @@ PrefabInstance:
     - target: {fileID: 6995597010288362388, guid: 4ac9cbe14527ca540be6a358551210f3, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567822557762840784, guid: 4ac9cbe14527ca540be6a358551210f3, type: 3}
+      propertyPath: speed
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 7567822557762840784, guid: 4ac9cbe14527ca540be6a358551210f3, type: 3}
       propertyPath: player
