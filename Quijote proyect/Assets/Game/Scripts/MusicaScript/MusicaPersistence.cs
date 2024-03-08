@@ -13,6 +13,10 @@ public class MusicaPersistente : MonoBehaviour
 
     [SerializeField] private AudioClip musicaMenu;
     [SerializeField] private AudioClip musicaTutorial;
+    [SerializeField] private AudioClip musicaEscenaAlex;
+    [SerializeField] private AudioClip musicaEscenaAntonio;
+    [SerializeField] private AudioClip musicaNivelFinal;
+    
     [SerializeField] private float duracionFundido = 2.0f;
     private AudioClip ultimoClipReproducido;
 
@@ -81,6 +85,8 @@ public class MusicaPersistente : MonoBehaviour
                 return musicaMenu;
             case "Tutorial":
                 return musicaTutorial;
+            case "Escena Alex":
+                return musicaEscenaAlex;
             // Añade más casos según sea necesario
             default:
                 return null;
