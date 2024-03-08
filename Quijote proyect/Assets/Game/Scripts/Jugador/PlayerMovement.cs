@@ -118,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-       
+
 
         animator.SetBool("isDying", isDying);
 
@@ -158,7 +158,7 @@ public class PlayerMovement : MonoBehaviour
             fallAnimationTimer = fallAnimationCooldown; // Reset the timer
         }
 
-        
+
 
         // Si se están utilizando los controles del teclado, establece isUsingKeyboard a true
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
@@ -170,17 +170,19 @@ public class PlayerMovement : MonoBehaviour
         {
             isUsingKeyboard = false;
         }
-
-        if (isUsingKeyboard)
+        if (!isDying)
         {
-            _moveInput.x = forceMoveRight ? 1 : Input.GetAxisRaw("Horizontal");
-            _moveInput.y = Input.GetAxisRaw("Vertical");
-        }
-        else
-        {
-            // Si la entrada del joystick es mayor que un pequeño umbral, se considera que es máxima
-            _moveInput.x = forceMoveRight ? 1 : (Mathf.Abs(joystick.Horizontal) > 0.1f ? Mathf.Sign(joystick.Horizontal) : joystick.Horizontal);
-            _moveInput.y = joystick.Vertical;
+            if (isUsingKeyboard)
+            {
+                _moveInput.x = forceMoveRight ? 1 : Input.GetAxisRaw("Horizontal");
+                _moveInput.y = Input.GetAxisRaw("Vertical");
+            }
+            else
+            {
+                // Si la entrada del joystick es mayor que un pequeño umbral, se considera que es máxima
+                _moveInput.x = forceMoveRight ? 1 : (Mathf.Abs(joystick.Horizontal) > 0.1f ? Mathf.Sign(joystick.Horizontal) : joystick.Horizontal);
+                _moveInput.y = joystick.Vertical;
+            }
         }
 
         bool isRunning = Mathf.Abs(_moveInput.x) > 0;
@@ -544,18 +546,27 @@ public class PlayerMovement : MonoBehaviour
     //Methods which whandle input detected in Update()
     public void OnJumpInput()
     {
-        LastPressedJumpTime = Data.jumpInputBufferTime;
+        if (!isDying)
+        {
+            LastPressedJumpTime = Data.jumpInputBufferTime;
+        }
     }
 
     public void OnJumpUpInput()
     {
-        if (CanJumpCut() || CanWallJumpCut())
-            _isJumpCut = true;
+        if (!isDying)
+        {
+            if (CanJumpCut() || CanWallJumpCut())
+                _isJumpCut = true;
+        }
     }
 
     public void OnDashInput()
     {
-        LastPressedDashTime = Data.dashInputBufferTime;
+        if (!isDying)
+        {
+            LastPressedDashTime = Data.dashInputBufferTime;
+        }
     }
     #endregion
 
