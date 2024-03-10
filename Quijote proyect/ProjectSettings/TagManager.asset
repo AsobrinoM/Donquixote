@@ -11,6 +11,7 @@ TagManager:
   - GeMBad
   - CheckPoint
   - Pinchos
+  - MensajeTutorial
   layers:
   - Default
   - TransparentFX
